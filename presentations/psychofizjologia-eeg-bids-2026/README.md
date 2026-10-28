@@ -12,7 +12,7 @@ Prezentacja 16:9 na około 30–35 minut. Zakres: łańcuch akwizycji EEG, EEG-B
 
 ## Pliki
 
-- [Slajdy Marp, 20 slajdów](slides.md).
+- [Slajdy Marp, 21 slajdów](slides.md).
 - [Notatki prowadzącego](speaker-notes.md).
 - [Scenariusz przeprowadzenia pokazu i komendy](demo.md).
 - [Wykonywalny pipeline dla realnego EDF lub lokalnego EEG](real_eeg_pipeline.py).
