@@ -196,9 +196,11 @@ Wykres syntetyczny, jeżeli używany wyłącznie do ilustracji, musi być tak op
 
 ~~~python
 from mne_bids import BIDSPath, write_raw_bids
+raw_bids = mne.io.read_raw_edf(paths[0], preload=False)
+eegbci.standardize(raw_bids)
 path = BIDSPath(subject='001', task='eyesopen',
                 datatype='eeg', root='data/bids/ds')
-write_raw_bids(raw_eo, path, format='BrainVision',
+write_raw_bids(raw_bids, path, format='BrainVision',
                overwrite=False)
 ~~~
 
