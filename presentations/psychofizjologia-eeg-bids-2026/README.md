@@ -16,6 +16,7 @@ Prezentacja 16:9 na około 30–35 minut. Zakres: łańcuch akwizycji EEG, EEG-B
 - [Notatki prowadzącego](speaker-notes.md).
 - [Scenariusz przeprowadzenia pokazu i komendy](demo.md).
 - [Wykonywalny pipeline dla realnego EDF lub lokalnego EEG](real_eeg_pipeline.py).
+- [Eksport rzeczywistych EDF do wstępnej struktury EEG-BIDS](export_physionet_bids.py).
 - [Offline smoke test na sygnale wytworzonym w kodzie](test_pipeline.py).
 - [Źródła naukowe i prawa do danych](references.md).
 
