@@ -1,47 +1,29 @@
-# Notatki do wystąpienia · wersja 1.1.0 (2026-10-28)
+# Notatki prelegenta · EEG-BIDS, Python, EEG Neurolyze
 
-**Planowany czas:** 30–35 minut, w tym 8–10 minut demonstracji. 21 slajdów. Struktura: akwizycja → EEG-BIDS → Python / MNE → rzeczywiste EO/EC → EEG Neurolyze / ograniczenia.
+Wersja 1.0.0 · 2026-10-28 · docelowo 25–30 min.
 
-| Slajd | Orientacyjny czas | Komentarz prelegenta |
+| Nr | Czas | Komentarz ustny |
 |---|---:|---|
-| 1 | 0:30 | Zapowiedz dwa warianty źródła: rzeczywisty publiczny PhysioNet i warunkowo własny pomiar. |
-| 2 | 1:00 | Od źródła pomiaru do odtwarzalnego wyniku, wspólna logika wszystkich części. |
-| 3 | 1:00 | Elektrody, napięcie względem referencji, artefakty. |
-| 4 | 1:00 | BIDS ułatwia porządkowanie, ale nie dowodzi jakości badania. |
-| 5 | 1:15 | Drzewo BIDS i format BrainVision. |
-| 6 | 1:15 | Kanały, referencja, sampling, zdarzenia; nie uzupełniaj nieznanych pól arbitralnie. |
-| 7 | 1:00 | Sekwencja QC → filtracja → PSD → raport. |
-| 8 | 1:15 | Plan A i B, brak automatycznej równoważności sprzętowej. |
-| 9 | 1:30 | 109 osób, 64 kanały, 160 Hz; run 1/2 to EO/EC, nie zadania motor imagery. |
-| 10 | 1:15 | Historyczna akwizycja BCI2000; nie jest to rejestracja wykonana przez prelegenta. |
-| 11 | 1:15 | Pobranie dwóch EDF i import w MNE, dane uczestnika S001. |
-| 12 | 1:15 | Screen amplitudy jest tylko kontrolą przesiewową, a nie usunięciem EOG. |
-| 13 | 1:00 | Rzeczywisty przebieg po wykonaniu skryptu; jeśli nie ma EDF, ilustracja pozostaje podpisana symulacją. |
-| 14 | 1:15 | Filtr 1–40 Hz, ograniczenia korekcji artefaktów. |
-| 15 | 1:15 | Welch, PSD µV²/Hz, pasmo alfa 8–13 Hz i zależność od parametrów. |
-| 16 | 1:15 | Podobnie: podmień wynik PSD dopiero po wykonaniu analizy na realnych danych. |
-| 17 | 1:30 | Eksport źródłowego EDF do BIDS, osobno oficjalny walidator; brak idealizowanych współrzędnych jako measured. |
-| 18 | 1:30 | Własny pomiar: montaż, sampling, zegary, przerwy BLE, zgoda. |
-| 19 | 1:00 | Podsumowanie PNG, CSV, JSON, SHA-256 i wersji bibliotek. |
-| 20 | 1:00 | EEG Neurolyze ma działający tor syntetyczny. Realny PhysioNet obsługuje oddzielny skrypt MNE. |
-| 21 | 0:30 | Trzy podsystemy i ograniczenia; pytania. |
+| 1 | 0:45 | Wyjaśnij, że pokaz jest technologiczny, nie kliniczny. |
+| 2 | 1:15 | Zadaj pytanie: czy inna osoba odtworzy wynik z samego wykresu? |
+| 3 | 2:00 | Źródła EEG, wpływ referencji; artefakty EOG/EMG. |
+| 4 | 1:45 | BIDS porządkuje dane i umożliwia automatyzację, ale nie zastępuje metodyki. |
+| 5 | 2:15 | Przejdź po drzewie danych; rozróżnij surowe pliki i metadane; events.tsv tylko gdy odpowiednie dla danych. |
+| 6 | 2:00 | Podkreśl sampling frequency, reference, kanały i zdarzenia. |
+| 7 | 1:45 | Filtracja i artefakty nie są neutralnymi operacjami. |
+| 8 | 1:45 | Alfa EO/EC jest demonstracją koncepcji; nie obiecuj efektu dla każdego uczestnika i kanału. |
+| 9 | 1:45 | Wyjaśnij PSD w jednostkach µV²/Hz oraz zależność estymaty od parametrów. |
+| 10 | 1:00 | Kod MNE stanowi przykład; nie deklaruj uruchomienia bez danych BIDS. |
+| 11 | 1:15 | Wymień dokładnie dostępne funkcje i niezweryfikowany sprzęt. |
+| 12 | 8:00 | Przeprowadź pokaz z demo.md (zastępuje komentarz ustny). |
+| 13 | 1:00 | Walidator BIDS nie świadczy o fizjologicznej jakości rejestracji. |
+| 14 | 0:30 | Jednozdaniowe podsumowanie. |
 
-Czasy sumują się do około 25 minut samego omówienia; 8–10 minut demonstracji należy rozłożyć na slajdy 11–19 zamiast dodawać pełne 10 minut do każdego z nich.
+Razem ~29 min (czasy orientacyjne).
 
-## Demonstracja rzeczywistego sygnału
-
-1. Przed zajęciami pobierz PhysioNet S001 run 1 i run 2 skryptem `real_eeg_pipeline.py`.
-2. Zachowaj `01_raw_eeg.png`, `02_welch_psd.png`, CSV i manifest; oceń jakość wykresów.
-3. Zastąp poglądowe syntetyczne wykresy na slajdach 13 i 16 wyłącznie rzeczywistymi wynikami. Podaj uczestnika, kanał, pasmo, metodę i pochodzenie.
-4. Jeśli konwersja jest potrzebna, uruchom `export_physionet_bids.py`, a następnie oficjalny walidator BIDS; zachowaj raport.
-5. Przy braku internetu użyj wcześniejszych **prawdziwych wyników** z lokalnego katalogu. Jeśli brak rzeczywistych wyników, wyraźnie przedstaw slajdy jako ilustracyjne, bez podawania efektu empirycznego.
-
-## Pytania wymagające rozróżnienia
-
-- **Czy mój software mierzył EEG?** Nie w tej demonstracji: PhysioNet to cudze publiczne dane rzeczywiste, EEG Neurolyze ma oddzielny tor syntetyczny. Własna akwizycja wymaga walidacji.
-- **Czy były badania z udziałem ludzi?** W źródłowej bazie PhysioNet tak; w ramach przygotowywania tej prezentacji nie przeprowadzano odrębnego pomiaru.
-- **Czy alfa w EC zawsze rośnie?** Nie, zależy od osób, kanału i jakości sygnału. Dla jednego uczestnika nie ma wnioskowania populacyjnego.
-- **Czy wykres z komputera jest dowodem jakości?** Nie; trzeba udokumentować jednostki, EOG/EMG, timing i parametry przetwarzania.
-- **Czy BIDS gwarantuje poprawny pomiar?** Nie. Walidator sprawdza strukturę/metadane, nie wiarygodność fizjologiczną.
-
-Odniesienia do źródeł: `references.md`. W repozytorium nie zapisujemy danych uczestników.
+## Pytania prowadzącej
+- **Czy były rzeczywiste zapisy EEG?** W prezentowanej demonstracji nie, tylko deterministyczne dane syntetyczne. W repo istnieje tor pozyskiwania z Muse S Athena, ale pomiar sprzętowy nie przeszedł jeszcze wymaganej walidacji.
+- **Czy to jest BIDS?** O zgodności konkretnego eksportu wnioskujemy dopiero po poprawnym wyniku oficjalnego BIDS Validator i sprawdzeniu odczytu danych; pokazujemy rozróżnienie między potencjalnym eksportem a potwierdzoną walidacją.
+- **Czy można analizować dane rzeczywiste?** Tak, narzędziami MNE można analizować poprawnie opisany EDF/EEG-BIDS. Oddzielna integracja importu surowych PhysioNet EDF z własnym .eegz nie jest częścią tego pokazu.
+- **Co oznacza alfa?** Moc widmowa 8–13 Hz jest cechą sygnału, a jej znaczenie zależy od lokalizacji, kontekstu, parametrów analizy i jakości danych.
+- **Dlaczego archiwum .eegz?** To format wewnętrzny zachowujący próbki/metadane z sumami kontrolnymi; nie jest standardem BIDS.
