@@ -1,8 +1,8 @@
 # Od sygnału EEG do reprodukowalnych wyników badań
 
-**Wersja 1.1.0 · 2026-10-28 · Psychofizjologia i pomiar EEG**
+**Wersja prezentacji głównej 1.0.0 · aneks techniczny 1.1.0 · 2026-10-28**
 
-Prezentacja 16:9 na około 30–35 minut. Zakres: łańcuch akwizycji EEG, EEG-BIDS, import i kontrola jakości, Python / MNE, filtracja, artefakty, PSD oraz demonstracja wyników.
+Główna prezentacja ma 14 slajdów (16:9), około 25–30 minut i skupia się na EEG-BIDS, praktycznej analizie EEG oraz demonstracji EEG Neurolyze. Rozszerzoną wersję 21-slajdową zachowano jako aneks, bez zastępowania preferowanego układu.
 
 ## Dwa scenariusze danych
 
@@ -12,8 +12,10 @@ Prezentacja 16:9 na około 30–35 minut. Zakres: łańcuch akwizycji EEG, EEG-B
 
 ## Pliki
 
-- [Slajdy Marp, 21 slajdów](slides.md).
+- [Slajdy główne Marp, 14 slajdów](slides.md).
+- [Aneks techniczny Marp, 21 slajdów](slides-detailed-v1.1.md).
 - [Notatki prowadzącego](speaker-notes.md).
+- [Rozszerzone notatki](speaker-notes-detailed-v1.1.md).
 - [Scenariusz przeprowadzenia pokazu i komendy](demo.md).
 - [Wykonywalny pipeline dla realnego EDF lub lokalnego EEG](real_eeg_pipeline.py).
 - [Eksport rzeczywistych EDF do wstępnej struktury EEG-BIDS](export_physionet_bids.py).
@@ -38,4 +40,4 @@ Surowe pliki EEG, własne nagrania i dane uczestników pozostają lokalnie, poza
 
 ## Generowanie prezentacji
 
-`slides.md` jest źródłem Marp (16:9), które można eksportować do PPTX/PDF darmowym Marp CLI. Graficzna wersja PPTX v1.1.0 i PDF została przygotowana jako artefakt rozmowy; repozytorium zachowuje edytowalne źródła, instrukcje oraz Python.
+`slides.md` jest źródłem Marp (16:9), które można eksportować do PPTX/PDF darmowym Marp CLI. Wersje PPTX/PDF v1.0.0 oraz v1.1.0 przygotowano jako artefakty rozmowy; repozytorium zachowuje edytowalne źródła, instrukcje oraz Python.
