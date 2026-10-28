@@ -59,6 +59,7 @@ nav:
       - Przegląd: pl/index.md
       - Pierwsze uruchomienie: pl/quickstart.md
       - Architektura przetwarzania: pl/workflow.md
+      - Referencja CLI: pl/cli.md
       - Syntetyczne EEG i BIDS: pl/bids.md
       - Rzeczywiste EEG - PhysioNet i własny zapis: pl/real-eeg.md
       - Muse S Athena (rozwój): pl/muse-athena.md
@@ -69,6 +70,7 @@ nav:
       - Overview: en/index.md
       - Quick start: en/quickstart.md
       - Processing architecture: en/workflow.md
+      - CLI reference: en/cli.md
       - Synthetic EEG and BIDS: en/bids.md
       - Real EEG - PhysioNet and local: en/real-eeg.md
       - Muse S Athena (development): en/muse-athena.md
