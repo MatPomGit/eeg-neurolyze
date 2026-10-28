@@ -231,6 +231,16 @@ Manifest: SHA-256, kanał, sampling, filtry, parametry Welcha, QC, wersje, ogran
 
 ---
 
+# EEG Neurolyze: co można zademonstrować?
+
+**Zweryfikowany tor oprogramowania (syntetyczny):** EO/EC, archiwum .eegz, PSD i HTML, eksport syntetycznego EEG do EEG-BIDS.
+
+**Odrębny tor danych rzeczywistych:** PhysioNet EDF+ → MNE → QC → PSD → manifest → MNE-BIDS.
+
+Na dziś **nie zakładamy**, że EEG Neurolyze potrafi poprawnie zaimportować realny EDF lub że akwizycja Muse S Athena jest sprzętowo zwalidowana.
+
+---
+
 # Od akwizycji do odtwarzalnego raportu
 
 **Akwizycja:** BCI2000/PhysioNet albo walidowany własny sprzęt.
