@@ -4,195 +4,295 @@ theme: default
 size: 16:9
 paginate: true
 style: |
-  section { font-family: 'Aptos', 'Arial', sans-serif; color: #112136; background:#F7FAFC; padding: 56px 70px; }
-  h1 { color:#073B53; font-size: 1.78em; line-height: 1.10; }
-  h2 { color:#08667D; font-size: 1.25em; }
-  h3 { color:#146F82; }
-  strong { color:#046E83; }
-  li { margin: .22em 0; font-size:.96em; }
-  code, pre { background:#E8F1F5; color:#16354A; }
-  blockquote { border-left: 5px solid #0B8FA1; color:#24455C; }
-  footer { font-size: 12px; color:#617A8C; }
-  section::after { color:#617A8C; font-size:14px; }
+  section { font-family: 'Aptos','Arial',sans-serif; background:#F6F9FC; color:#10283F; padding:52px 70px; }
+  h1 { color:#071F32; font-size:1.66em; }
+  h2 { color:#0F9BB0; }
+  code,pre { background:#071F32; color:#F6F9FC; border-radius:6px; font-size:.72em; }
+  strong { color:#087F91; }
+  blockquote { border-left:5px solid #0F9BB0; color:#36536A; }
 ---
 
 <!-- _paginate: false -->
-# Od sygnału EEG do reprodukowalnych wyników badań
+# EEG-BIDS jako warunek wiarygodnej inferencji ze sygnału EEG
 
-## EEG-BIDS · analiza w Pythonie · EEG Neurolyze
+**Identyfikowalność · analiza widmowa · wrażliwość na decyzje metodologiczne**
 
-**Psychofizjologia i pomiar EEG**
-
-Mateusz Pomianek · 2026 · wersja 1.0.0
-
-<!-- note: Wprowadź trzy spójne wątki; zaznacz, że część live wykorzystuje symulację. -->
+Psychofizjologia i pomiar EEG · Mateusz Pomianek · 2026 · v1.2.0
 
 ---
 
-# Jedno badanie, trzy pytania
+# To samo EEG, różne efekty statystyczne
 
-1. **Jak opisać EEG**, aby druga osoba zrozumiała zapis?
-2. **Jak analizować sygnał**, aby wyniki dało się sprawdzić?
-3. **Jak odtworzyć całą procedurę** przy użyciu kodu i metadanych?
+**Pytanie:** czy EC względem EO zwiększa moc alfa w okolicy potylicznej?
 
-**Reprodukowalność = dane + metadane + kod + parametry + wersje + kontrola jakości.**
+**Współzmienne decyzje:** referencja, pasmo, epokowanie, artefakty, filtracja, okno i kanały.
 
----
-
-# EEG: co właściwie mierzymy?
-
-- Różnice potencjałów elektrycznych rejestrowane na powierzchni głowy.
-- Sygnał zależy m.in. od montażu, odniesienia, impedancji i jakości kontaktu elektrod.
-- Typowe zanieczyszczenia: EOG, EMG, ruch, zakłócenia sieciowe.
-- Sama zmiana mocy pasma **nie jest rozpoznaniem klinicznym**.
-
-**Schemat:** mózg → elektrody → wzmacniacz i ADC → próbki → analizy.
+**Kryterium:** wynik musi pozostać interpretowalny po ujawnieniu całego pipeline'u.
 
 ---
 
-# Dlaczego EEG-BIDS?
+# PhysioNet EEGMMIDB: przypadek kontrolny
 
-**BIDS (Brain Imaging Data Structure)** porządkuje dane, nazwy plików i metadane w przewidywalnej strukturze.
+**109 uczestników · 64 kanały · fs = 160 Hz · EDF+ · BCI2000**.
 
-- Jednoznaczny identyfikator uczestnika, zadania i sesji.
-- Opis kanałów, częstotliwości próbkowania, odniesienia i zdarzeń.
-- Możliwość automatycznego odczytu i walidacji.
-- Oddzielenie danych pierwotnych od rezultatów przetwarzania.
+- R01: oczy otwarte (EO)
+- R02: oczy zamknięte (EC)
+- R04: wyobrażanie ruchu ręki (inna procedura)
 
-Źródło: BIDS Specification, EEG modality.
+Kolejność R01/R02 jest ustalona; różnicy nie należy przypisywać wyłącznie zmianie stanu oczu bez rozważenia efektu kolejności.
+
+Źródło: https://physionet.org/content/eegmmidb/1.0.0/
 
 ---
 
-# Struktura przykładowego zbioru EEG-BIDS
+# Dwie ścieżki akwizycji, wspólny kontrakt
 
-```text
-ds-eeg-demo/
-├── dataset_description.json
-├── participants.tsv
-└── sub-001/
-    └── eeg/
-        ├── sub-001_task-rest_eeg.vhdr
-        ├── sub-001_task-rest_eeg.vmrk
-        ├── sub-001_task-rest_eeg.eeg
-        ├── sub-001_task-rest_eeg.json
-        ├── sub-001_task-rest_channels.tsv
-        └── sub-001_task-rest_events.tsv  # jeśli są zdarzenia
+**Zbiór publiczny:** BCI2000 → EDF+ → MNE → QC → BIDS.
+
+**Rejestracja własna:** urządzenie → dane źródłowe → weryfikacja zegara i transmisji → niezmienny zapis → eksport.
+
+W obu wariantach: identyfikator, próbki, jednostki, odniesienie, częstotliwość, zdarzenia, checksumy.
+
+---
+
+# Inwarianty pomiędzy formatami
+
+| Warstwa | Metadane krytyczne |
+|---|---|
+| Pochodzenie | subject, task, run, identyfikator źródła, SHA-256 |
+| Czas | fs, zegar, nieciągłości, zdarzenia i ich odniesienie |
+| Pomiar | kanały, jednostki, gain, EEGReference |
+| Transformacja | filtracja, parametry estymacji, wersje |
+| Walidacja | BIDS Validator, round-trip próbki/czas/kanały |
+
+---
+
+# Walidacja BIDS nie waliduje fizjologii
+
+```json
+{
+  "TaskName": "eyesclosed",
+  "SamplingFrequency": 160,
+  "EEGReference": "n/a",
+  "PowerLineFrequency": "n/a",
+  "SoftwareFilters": "n/a"
+}
 ```
 
-**Przykład ilustracyjny**, nie kompletny dowód zgodności. Wymagane pliki i pola zależą od danych; zgodność sprawdza oficjalny BIDS Validator.
+Pola `n/a` są przykładem **nieznanych** wartości, nie zmierzonymi parametrami.
+
+Oficjalny walidator ocenia standard danych, a nie jakość biologiczną zapisu.
 
 ---
 
-# Metadane, których nie widać na wykresie
+# Round-trip: test semantyczny
 
-| Pole / plik | Pytanie, na które odpowiada |
-|---|---|
-| `SamplingFrequency` | Ile próbek na sekundę? |
-| `EEGReference` | Względem czego mierzono napięcie? |
-| `PowerLineFrequency` | Jakie zakłócenie sieciowe może wystąpić? |
-| `channels.tsv` | Jakie kanały, jednostki i status? |
-| `events.tsv` | Kiedy i co wydarzyło się podczas rejestracji? |
+```python
+from mne_bids import BIDSPath, read_raw_bids, write_raw_bids
+raw0 = mne.io.read_raw_edf(src, preload=False)
+path = BIDSPath(subject="001", task="eyesopen",
+                datatype="eeg", root=dst)
+write_raw_bids(raw0, path, format="BrainVision")
+raw1 = read_raw_bids(path, verbose=False)
+assert raw1.info["sfreq"] == raw0.info["sfreq"]
+assert raw1.ch_names == raw0.ch_names
+```
 
-**Brak metadanych ogranicza interpretowalność nawet poprawnego numerycznie zapisu.**
-
----
-
-# Od surowych próbek do wyniku
-
-**Import → kontrola jakości → filtracja → ocena artefaktów → estymacja cech → raport**
-
-- Sprawdź jednostki, kanały, częstotliwość próbkowania i zdarzenia.
-- Przy filtracji jawnie zapisz typ, pasmo i parametry.
-- Oceń artefakty przed interpretacją PSD.
-- Zachowaj kod, wersje bibliotek i pochodzenie danych.
-
-**Uwaga:** przetwarzanie zmienia sygnał i może wprowadzać artefakty.
+Dalsze bramki: wartości próbek z tolerancją numeryczną, zdarzenia, format i status BIDS Validator.
 
 ---
 
-# Przykład: oczy otwarte vs zamknięte
+# Składowa oscylacyjna na tle aperiodicznym
 
-**Warunki:** EO (eyes open) i EC (eyes closed).
+Moc pasma alfa nie jest synonimem amplitudy wyizolowanego oscylatora.
 
-- Badamy zmiany mocy widmowej w zakresie **alfa 8–13 Hz**.
-- W badaniach EEG często obserwuje się silniejszą aktywność alfa przy oczach zamkniętych, szczególnie potylicznie.
-- Konieczne są jednak: wybór kanałów, kontrola artefaktów, porównywalne okna i ostrożna interpretacja.
+Wzrost 8–13 Hz może wynikać z piku alfa **lub** przesunięcia charakterystyki 1/f.
 
-**Pokaz EEG Neurolyze: dane syntetyczne, nie dowód empiryczny.**
+**Ilustracja:** model syntetyczny, wykres `07_aperiodic.png` generowany przez skrypt źródłowy.
 
 ---
 
-# Analiza widmowa: metoda Welcha
+# Welch: rozdzielczość kontra wariancja
 
-1. Podziel sygnał na częściowo nakładające się okna.
-2. Oblicz widmo mocy dla każdego okna.
-3. Uśrednij estymaty, uzyskując PSD.
-4. Porównaj moc w zdefiniowanym paśmie.
+\(\Delta f = f_s / N_{\mathrm{seg}}\)
 
-**PSD: µV²/Hz**, oś pozioma: **częstotliwość [Hz]**.
+Przy fs = 160 Hz: segment 256 próbek → 0,625 Hz; 1024 próbek → 0,156 Hz.
 
-Wynik zależy od długości segmentu, okna, nakładania, odniesienia i filtracji.
+Dłuższe segmenty zapewniają lepszą rozdzielczość, ale mniej prawie niezależnych estymat.
+
+**Ilustracja syntetyczna:** dwa pobliskie piki 9,5 i 10,4 Hz.
 
 ---
 
-# Python: narzędzia w praktyce
+# Stałe pasmo 8–13 Hz ≠ indywidualny pik alfa
+
+- Definicja stała ułatwia powtarzalność.
+- IAF pozwala dostosować pasmo, wymaga jednak niezależnej estymacji.
+- Dobór pasma po obejrzeniu efektu grozi nadmiernym dopasowaniem hipotezy.
+
+**Ilustracja syntetyczna:** PSD EO/EC w kanale potylicznym.
+
+---
+
+# Artefakty zmieniają estymator
+
+EOG, EMG i przerwy mogą wywoływać zmianę PSD większą niż porównywany efekt.
+
+- Raportuj liczbę i frakcję odrzuconych okien.
+- Odrzucanie powinno wynikać z uprzednio ustalonych kryteriów QC.
+- Próg amplitudy nie jest równoważny dekompozycji EOG/EMG.
+
+**Ilustracja syntetyczna:** sygnał z epizodem EOG i PSD przed/po wykluczeniu.
+
+---
+
+# Filtracja ma cenę interpretacyjną
+
+Przy filtracji pasmowej mogą wystąpić ringing i artefakty wokół transjentów.
+
+Filtrowanie dwukierunkowe daje odpowiedź bez przesunięcia fazowego, lecz jest niekauzalne.
+
+Rejestruj typ filtra, rząd, częstotliwości graniczne, strategię obsługi brzegów.
+
+**Ilustracja syntetyczna:** odpowiedź filtra 1–40 Hz na impuls.
+
+---
+
+# Referencja EEG jest operatorem liniowym
+
+Średnia wspólna (CAR): \(V'_i = V_i - \overline{V}\).
+
+Odniesienie Cz: \(V'_i = V_i - V_{Cz}\).
+
+Różne referencje zmieniają mapę mocy alfa w tym samym modelu źródłowym.
+
+**Topografia:** syntetyczna, pozycje elektrod `standard_1020` są szablonem, nie zmierzonymi współrzędnymi.
+
+---
+
+# Multiverse: ujawnić wszystkie decyzje
+
+Definiujemy siatkę **referencja × pasmo × długość okna**, a nie wybieramy najlepszego wariantu post hoc.
+
+Zamiast pojedynczego „p” raportujemy zakres wrażliwości efektu.
+
+**Ilustracja:** syntetyczna macierz zmian log-ratio w dB.
+
+---
+
+# Python 01: import rzeczywistych EDF
 
 ```python
 import mne
-from mne_bids import BIDSPath, read_raw_bids
+from mne.datasets import eegbci
 
-path = BIDSPath(subject="001", task="rest",
-                datatype="eeg", root="data/bids/ds-demo")
-raw = read_raw_bids(bids_path=path, verbose=False)
-raw.compute_psd(method="welch", fmin=1, fmax=40).plot()
+paths = eegbci.load_data(1, [1, 2],
+    path="data/external/eegbci", update_path=False)
+eo = mne.io.read_raw_edf(paths[0], preload=True)
+ec = mne.io.read_raw_edf(paths[1], preload=True)
+eegbci.standardize(eo)
+eegbci.standardize(ec)
+assert eo.info["sfreq"] == ec.info["sfreq"]
 ```
 
-**Warunek:** wskazany katalog zawiera poprawnie przygotowany i odczytywalny zbiór EEG-BIDS. Własny eksport należy najpierw zwalidować.
+Pobranie EDF wymaga sieci; wykonane wykresy syntetyczne **nie** są wynikiem tego kodu.
 
 ---
 
-# EEG Neurolyze: stan faktyczny
+# Czas i amplituda: przed filtracją
 
-**Dostępne w kodzie:** generowanie syntetycznego EO/EC, archiwum `.eegz` z sumami SHA-256, raport HTML, wykresy sygnału / PSD, eksport syntetycznego EEG do BrainVision-BIDS, polecenie walidatora, pochodne alfa.
+Porównanie EO/EC wykonuj przy tej samej skali amplitudy i identycznym kanale.
 
-**Niepotwierdzone:** pomiar rzeczywisty Muse S Athena, poprawność rzeczywistych zegarów i przerw BLE, wiarygodność kliniczna.
+**Ilustracja:** syntetyczne przebiegi Oz [µV] jako model możliwego wejścia.
 
-**Zasada:** symulacja ≠ pomiar człowieka; eksport ≠ walidacja.
-
----
-
-# Demonstracja 8–10 minut
-
-1. Uruchom syntetyczny eksperyment **EO/EC** z ustalonym ziarnem `42`.
-2. Otwórz wynikowy raport HTML i archiwum `.eegz`.
-3. Narysuj przebieg i PSD z `plot --view psd`.
-4. Wykonaj eksport `bids export` do **nowego** katalogu.
-5. Uruchom `bids validate`; omów wynik oraz strukturę plików.
-
-Pełne polecenia i plan awaryjny: `demo.md`.
+Po pobraniu EDF podmień na rzeczywisty wykres i zapisz SHA-256 źródeł.
 
 ---
 
-# Co może pójść nie tak?
+# Python 02: PSD i jednostki
 
-- Artefakty i referencja zmieniają amplitudy i widma.
-- Błędne jednostki lub zdarzenia zniekształcają interpretację.
-- Poprawna struktura plików nie gwarantuje rzetelności pomiaru.
-- Wynik symulacji nie jest empirycznym potwierdzeniem hipotezy.
-- Walidator sprawdza standard danych, a nie prawdziwość zarejestrowanego EEG.
+```python
+from scipy.signal import welch
+import numpy as np
 
-**Reprodukowalny wynik nie musi być automatycznie wynikiem wiarygodnym.**
+raw = ec.copy().pick(["Oz"]).filter(1., 40.)
+x_uv = raw.get_data()[0] * 1e6
+f, p = welch(x_uv, fs=raw.info["sfreq"],
+             nperseg=512, noverlap=256)
+band = (f >= 8) & (f <= 13)
+power_uv2 = np.trapezoid(p[band], f[band])
+```
+
+Jednostki PSD: µV²/Hz, zintegrowanej mocy: µV². Odrzucenia QC udokumentuj przed oszacowaniem.
 
 ---
 
-# Wnioski
+# Niepewność: pseudoreplikacja
 
-**EEG-BIDS** opisuje i porządkuje zapis.
+\(\Delta_\alpha = 10\log_{10}(P_{\alpha, EC}/P_{\alpha, EO})\) [dB].
 
-**Python i MNE** umożliwiają jawne, odtwarzalne przetwarzanie.
+Okna i kanały tej samej osoby **nie są niezależnymi jednostkami biologicznymi**.
 
-**EEG Neurolyze** łączy demonstrację analizy i eksportu na danych syntetycznych; walidacja rzeczywistego pomiaru jest odrębnym zadaniem.
+W modelu populacyjnym jednostką niezależną jest uczestnik, nie epoka.
 
-**Zasada końcowa:** zapisuj źródła danych, parametry, wersje i ograniczenia.
+---
 
-Źródła: BIDS EEG specification · MNE-BIDS documentation · PhysioNet EEGMMIDB · projekt eeg-neurolyze.
+# Python 03: eksport źródłowego EEG-BIDS
+
+```python
+from mne_bids import BIDSPath, write_raw_bids
+raw = mne.io.read_raw_edf(paths[0], preload=False)
+eegbci.standardize(raw)
+bids = BIDSPath(subject="001", task="eyesopen",
+                datatype="eeg", root="data/bids/ds-example")
+write_raw_bids(raw, bids, format="BrainVision",
+               overwrite=False)
+```
+
+Walidacja BIDS i przegląd metadanych następują **po** eksporcie. Nie zapisuj zmienionych próbek jako surowych danych.
+
+---
+
+# Bramki wejścia dla własnego EEG
+
+1. Transport, zerwania transmisji i stabilność zegara.
+2. Gain, jednostki, mapowanie kanałów i system referencyjny.
+3. Znaczniki protokołu EO/EC i kolejność warunków.
+4. Artefakty EOG/EMG i kontrola jakości fizjologicznej.
+5. SHA-256, niezmienność źródła, zgoda i pseudonimizacja.
+
+Brak dowodu poprawnego pomiaru → prezentować PhysioNet, **nie** symulację jako rejestrację.
+
+---
+
+# Demonstracja: jedna rejestracja, pełny ślad
+
+**01** Otwórz EDF, metadane i checksumy.
+
+**02** Oceń sygnał, amplitudę i artefakty.
+
+**03** Oblicz PSD, rozważ 1/f, sprawdź alfa.
+
+**04** Zmień pasmo, referencję i okno estymacji.
+
+**05** Odtwórz manifest, BIDS, walidator i raport.
+
+Oprogramowanie jest narzędziem demonstracyjnym, a nie przedmiotem wykładu.
+
+---
+
+# Wynik naukowy = estymata + kontrakt danych + test odporności
+
+**Wnioski:** BIDS wspiera interoperacyjność; decyzje przetwarzania wpływają na efekt; bez danych źródłowych i manifestu nie ma pełnej reprodukowalności.
+
+**Źródła:**
+
+Pernet et al. (2019), *Scientific Data*, 6:103, doi:10.1038/s41597-019-0104-8.
+
+PhysioNet EEGMMIDB v1.0.0, https://physionet.org/content/eegmmidb/1.0.0/.
+
+MNE Preprocessing, https://mne.tools/stable/auto_tutorials/preprocessing/.
+
+MNE-BIDS, https://mne.tools/mne-bids/stable/generated/mne_bids.write_raw_bids.html.
+
+Wykresy: autorska symulacja, seed=20261028; brak danych uczestników.
