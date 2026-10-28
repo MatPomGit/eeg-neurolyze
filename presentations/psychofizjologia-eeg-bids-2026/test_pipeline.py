@@ -37,4 +37,5 @@ with tempfile.TemporaryDirectory() as tmp:
     manifest = json.loads((target / "04_manifest.json").read_text("utf-8"))
     assert manifest["alpha_power_uv2"]["EC"] > manifest["alpha_power_uv2"]["EO"]
     assert manifest["analysis"]["channel"] == "Oz"
+    assert "unverified" in manifest["data_kind"]
     print("SMOKE TEST PASS: local input -> QC -> Welch -> PNG/CSV/JSON")
