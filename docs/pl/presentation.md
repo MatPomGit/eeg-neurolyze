@@ -1,28 +1,24 @@
-# Prezentacja: EEG-BIDS, Python i EEG Neurolyze
+# Seminarium zaawansowane: EEG-BIDS i wiarygodna inferencja
 
-**Preferowany format:** krótka, spójna prezentacja koncepcyjna; zaawansowane szczegóły kodowe i realne EDF są udokumentowane tutaj, a nie umieszczane na każdym slajdzie.
+**Wersja główna v1.2.0:** 22 slajdy, format 16:9, około 30–35 minut. Bez rozdziałów o podstawach EEG i bez prezentowania programu EEG Neurolyze jako produktu.
 
-## Wariant główny: 14 slajdów
+## Treść seminarium
 
-Zachowano pierwszą koncepcję graficzną i narracyjną, z trzema osiami:
+- Nieidentyfikowalność wyniku bez metadanych źródłowych i systemu referencyjnego.
+- Walidacja EEG-BIDS vs fizjologiczna rzetelność zapisu.
+- MNE-BIDS i semantyczna weryfikacja round-trip.
+- Rozdzielenie komponentu oscylacyjnego i aperiodicznego.
+- Rozdzielczość estymatora Welcha, IAF i wybór pasm.
+- Artefakty EOG/EMG, reakcja filtrów na transjenty, wybór referencji.
+- Analiza wrażliwości wielowariantowej i problem pseudoreplikacji.
+- Wykonywalne fragmenty Python: import EDF, PSD i eksport źródłowego EEG-BIDS.
 
-1. **EEG-BIDS:** struktura zbiorów, metadane, walidacja i reprodukowalność.
-2. **Praktyczna analiza:** import, filtry, artefakty, PSD, porównanie EO/EC.
-3. **EEG Neurolyze:** demonstracja istniejących funkcji oprogramowania; symulacja jest jawnie oznaczona.
+**[Źródło 22 slajdów](https://github.com/MatPomGit/eeg-neurolyze/blob/main/presentations/psychofizjologia-eeg-bids-2026/slides.md)** · [Notatki prelegenta](https://github.com/MatPomGit/eeg-neurolyze/blob/main/presentations/psychofizjologia-eeg-bids-2026/speaker-notes-advanced-v1.2.md) · [Metodologia](https://github.com/MatPomGit/eeg-neurolyze/blob/main/presentations/psychofizjologia-eeg-bids-2026/advanced-methodology.md)
 
-- [Źródła 14 slajdów (Marp)](https://github.com/MatPomGit/eeg-neurolyze/blob/main/presentations/psychofizjologia-eeg-bids-2026/slides.md).
-- [Notatki prelegenta](https://github.com/MatPomGit/eeg-neurolyze/blob/main/presentations/psychofizjologia-eeg-bids-2026/speaker-notes.md).
+Wersje archiwalne: [krótka v1.0.0](https://github.com/MatPomGit/eeg-neurolyze/blob/main/presentations/psychofizjologia-eeg-bids-2026/slides-concise-v1.0.md), [rozszerzona v1.1.0](https://github.com/MatPomGit/eeg-neurolyze/blob/main/presentations/psychofizjologia-eeg-bids-2026/slides-detailed-v1.1.md).
 
-## Materiały rozszerzone (nie zastępują głównej prezentacji)
+## Rejestracje i ilustracje
 
-- [21-slajdowy aneks techniczny](https://github.com/MatPomGit/eeg-neurolyze/blob/main/presentations/psychofizjologia-eeg-bids-2026/slides-detailed-v1.1.md).
-- [Scenariusz demonstracji](https://github.com/MatPomGit/eeg-neurolyze/blob/main/presentations/psychofizjologia-eeg-bids-2026/demo.md).
-- [Analiza PhysioNet w Pythonie](real-eeg.md), [walidacja i reprodukowalność](quality.md).
+Na slajdach używamy zarejestrowanych sygnałów i własnego kodu analitycznego; nie opisujemy szczegółowo oprogramowania. Przygotowane **osiem wykresów to symulacje metodologiczne** i tak są podpisane. Nie zostały wygenerowane z rzeczywistych EDF pobranych w tej rozmowie.
 
-## Praktyczny pokaz
-
-**Wariant A (pewny):** lokalny syntetyczny EO/EC + raport HTML i kontrolowany eksport do BIDS.
-
-**Wariant B (warunkowy):** po pobraniu EDF z PhysioNet zamiana poglądowych obrazów na prawdziwe wykresy wygenerowane przez MNE. Jeżeli własne EEG zostanie poprawnie zebrane i zwalidowane, może zastąpić PhysioNet.
-
-Nie zamieniaj na slajdzie podpisu „symulacja” na „pomiar” bez faktycznej zmiany źródła danych i udokumentowania akwizycji. Zawsze stosuj podpisy osi i jednostki.
+Prawdziwe dane: [PhysioNet i lokalne EDF](real-eeg.md). Zastępuj obrazy symulacyjne tylko wynikami faktycznej analizy z udokumentowanym SHA-256, jednostkami i parametrami QC. Zależność od referencji i lokalizacji kanałów jest szczególnie istotna, jeśli zamiast 64-kanałowego systemu 10–10 używamy urządzenia czterokanałowego.
