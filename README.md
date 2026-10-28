@@ -10,6 +10,7 @@ and Windows 11.
 - [Full project concept and system architecture](docs/architecture/PROJECT-CONCEPT.md)
 - [Architecture Decision Records](docs/architecture/adr/README.md)
 - [Implementation roadmap and verification gates](docs/architecture/ROADMAP.md)
+- [Presentation: EEG-BIDS, Python and EEG Neurolyze (PL, 2026)](presentations/psychofizjologia-eeg-bids-2026/README.md)
 - [Agent development rules](AGENTS.md)
 
 The public project is **EEG Neurolyze**; the existing installed Python package and CLI still use the legacy `eeg_athenalyze` / `eeg-athenalyze` names pending a compatibility-managed migration.
