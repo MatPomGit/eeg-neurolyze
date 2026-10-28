@@ -1,6 +1,6 @@
 # Windows 11 quick start (synthetic EEG)
 
-This tutorial uses a **synthetic** recording. It does not connect to the Muse S Athena headband. Physical device acquisition, PsychoPy, and EEG-BIDS export are not implemented in the current MVP.
+This tutorial uses a **synthetic** recording. It does not connect to the Muse S Athena headband. The Muse S Athena acquisition adapter exists but has not passed on-device validation. PsychoPy integration is planned. EEG-BIDS export is implemented for **synthetic recordings only** and requires independent validation.
 
 ## Prerequisites
 Install Python 3.12 for Windows, including the Python launcher (`py`), and Git. No administrator privileges should be necessary for ordinary project installation.
@@ -30,4 +30,4 @@ Inspect the per-channel alpha-band power (8–13 Hz) and EO/EC comparison. These
 - **Existing output name:** the experiment uses a new session ID. Never manually overwrite a completed archive.
 
 ## Data standards
-Native `.eegz` is an internal, checksummed format, **not BIDS**. BIDS conversion and formal validator integration remain separate planned milestones.
+Native `.eegz` is an internal, checksummed format, **not BIDS**. Synthetic-only EEG-BIDS conversion and an official validator command are implemented; see [BIDS export](bids.md) and the [real EDF walkthrough](real-eeg.md).

@@ -5,6 +5,12 @@
 EEG acquisition, preprocessing, and analysis toolkit for Muse S Athena, Python,
 and Windows 11.
 
+## Documentation
+
+- [MkDocs documentation (GitHub Pages)](https://matpomgit.github.io/eeg-neurolyze/)
+- [Polski](https://matpomgit.github.io/eeg-neurolyze/pl/) | [English](https://matpomgit.github.io/eeg-neurolyze/en/)
+- [Real EEG examples and PhysioNet](https://matpomgit.github.io/eeg-neurolyze/pl/real-eeg/)
+
 ## Architecture and roadmap
 
 - [Full project concept and system architecture](docs/architecture/PROJECT-CONCEPT.md)
@@ -17,11 +23,14 @@ The public project is **EEG Neurolyze**; the existing installed Python package a
 
 ## Current status
 
-The initial implementation provides deterministic synthetic EEG generation,
-lossless SHA-256-verified native archives, and an EO/EC resting-state synthetic
-workflow with Welch alpha-power comparison and an HTML report. Synthetic data is
-clearly identified as simulated; physical Muse S Athena acquisition, EEG-BIDS
-export, and PsychoPy experiments are not implemented yet.
+The implementation provides deterministic synthetic EEG generation, lossless
+SHA-256-verified native archives, EO/EC analysis and an HTML report. Synthetic
+BrainVision EEG-BIDS export and official validator integration are implemented;
+claims of compliance require executing validation on a concrete dataset.
+A physical Muse S Athena acquisition adapter exists but its timing, channel
+mapping and signal quality have not passed the required on-device validation.
+PsychoPy/LSL integration is still planned. The separate PhysioNet example uses
+real EDF recordings with MNE without claiming verified hardware acquisition.
 
 ## Windows 11 one-click tutorial
 
@@ -94,5 +103,7 @@ Run the standard-library tests without hardware or third-party runtime packages:
 python -m unittest discover -s tests -v
 ```
 
-All EEG values are simulated in this initial implementation. It has not been
-validated with physical hardware and does not claim BIDS compliance.
+The primary EO/EC walkthrough is synthetic; a separate real-data PhysioNet
+workflow is available under the presentation folder and the MkDocs site.
+Hardware acquisition remains unvalidated, and BIDS compliance must be checked
+for each dataset with the official validator.

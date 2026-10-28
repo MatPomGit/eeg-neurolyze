@@ -1,0 +1,71 @@
+name: EEG Neurolyze documentation (MkDocs / Pages)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - 'requirements-docs.txt'
+      - '.github/workflows/mkdocs-pages.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: eeg-neurolyze-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout documentation sources
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-docs.txt
+      - name: Install pinned docs dependencies
+        run: python -m pip install -r requirements-docs.txt
+      - name: Build MkDocs site
+        run: python -m mkdocs build --clean
+      - name: Validate site output
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s site/index.html
+          test -s site/pl/real-eeg/index.html
+          test -s site/en/real-eeg/index.html
+          test -s site/pl/presentation/index.html
+          ! find site -type f \( -iname '*.edf' -o -iname '*.eegz' -o -iname '*.vhdr' -o -iname '*.vmrk' \) | grep -q .
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./site
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Publish to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

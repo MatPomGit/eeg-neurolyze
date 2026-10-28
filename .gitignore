@@ -12,3 +12,7 @@ data/local/*
 !data/local/athena-60s.eegz
 !data/local/athena-60s-qc.json
 reports/
+
+# MkDocs output and isolated documentation environment
+.venv-docs/
+site/

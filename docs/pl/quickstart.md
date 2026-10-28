@@ -1,6 +1,6 @@
 # Pierwsze uruchomienie na Windows 11 (syntetyczne EEG)
 
-Instrukcja dotyczy danych **syntetycznych**. Nie łączy się z opaską Muse S Athena. Akwizycja sprzętowa, PsychoPy i eksport EEG-BIDS nie zostały jeszcze zaimplementowane w obecnej wersji MVP.
+Instrukcja dotyczy danych **syntetycznych**. Nie łączy się z opaską Muse S Athena. Moduł rejestracji Muse S Athena istnieje, ale nie przeszedł walidacji na rzeczywistym urządzeniu; PsychoPy nie jest jeszcze zintegrowane. Eksport EEG-BIDS jest dostępny **wyłącznie dla syntetycznego EEG** i wymaga niezależnej walidacji.
 
 ## Wymagania
 Zainstaluj Python 3.12 dla Windows, łącznie z programem uruchamiającym `py`, oraz Git. Standardowa instalacja projektu nie powinna wymagać uprawnień administratora.
@@ -30,4 +30,4 @@ Porównaj moc pasma alfa (8–13 Hz) dla kanałów TP9, AF7, AF8 i TP10 w warunk
 - **Konflikt nazw:** każda sesja otrzymuje nowy identyfikator. Nie nadpisuj ręcznie archiwów.
 
 ## Standard danych
-Wewnętrzny format `.eegz` z sumą kontrolną **nie jest standardem BIDS**. Eksport i formalna walidacja BIDS będą realizowane w odrębnym etapie.
+Wewnętrzny format `.eegz` z sumą kontrolną **nie jest standardem BIDS**. Dla syntetycznych archiwów dostępny jest eksport BIDS i uruchomienie oficjalnego walidatora; zobacz [instrukcję EEG-BIDS](bids.md) oraz [przykład rzeczywistych EDF](real-eeg.md).
