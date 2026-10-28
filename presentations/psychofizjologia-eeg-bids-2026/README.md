@@ -1,43 +1,40 @@
-# Od sygnału EEG do reprodukowalnych wyników badań
+# Zaawansowane seminarium: EEG-BIDS i inferencja ze sygnału EEG
 
-**Wersja prezentacji głównej 1.0.0 · aneks techniczny 1.1.0 · 2026-10-28**
+**Prezentacja główna v1.2.0 · 22 slajdy · 2026-10-28 · Psychofizjologia i pomiar EEG**
 
-Główna prezentacja ma 14 slajdów (16:9), około 25–30 minut i skupia się na EEG-BIDS, praktycznej analizie EEG oraz demonstracji EEG Neurolyze. Rozszerzoną wersję 21-slajdową zachowano jako aneks, bez zastępowania preferowanego układu.
+Ta wersja koncentruje się na zaawansowanej metodologii i analizie wrażliwości wyników EEG, a nie na podstawach EEG ani opisie oprogramowania.
 
-## Dwa scenariusze danych
+## Materiały
 
-**Plan A (podstawowy):** PhysioNet EEG Motor Movement/Imagery Dataset v1.0.0, osoba S001: run 1 = eyes open, run 2 = eyes closed. Są to dane rzeczywiste z historycznej rejestracji BCI2000 (64 EEG, 160 Hz, EDF+). Zajęcia obejmują **rekonstrukcję procesu akwizycji** i własne odtwarzalne przetwarzanie, nie fizyczne powtórzenie pomiaru.
+- [Źródło prezentacji Marp v1.2.0 (22 slajdy)](slides.md).
+- [Notatki prelegenta v1.2.0](speaker-notes-advanced-v1.2.md).
+- [Metodologia, bramki weryfikacji i bibliografia](advanced-methodology.md).
+- [Archiwalna krótka prezentacja v1.0.0](slides-concise-v1.0.md).
+- [Archiwalna wersja techniczna v1.1.0](slides-detailed-v1.1.md).
+- [Pipeline dla rzeczywistych PhysioNet EDF i lokalnego EEG](real_eeg_pipeline.py).
+- [Eksport źródłowego EDF do kandydata BIDS](export_physionet_bids.py).
+- [Smoke test na syntetycznych FIF](test_pipeline.py).
+- [Scenariusz demonstracji danych rzeczywistych](demo.md).
 
-**Plan B (warunkowy):** własne EEG. Możliwy tylko gdy przed prezentacją zostanie zebrane i zweryfikowane, z zachowanym pochodzeniem, parametrami sprzętu, zgodą, jednostkami, referencją, znacznikami czasu i kontrolą artefaktów. Nie stwierdzamy, że urządzenie Muse S Athena zostało zwalidowane.
+## Zakres zaawansowanej analizy
 
-## Pliki
+Komponent aperiodiczny 1/f vs piki alfa, kompromis parametrów Welcha, IAF, artefakty EOG/EMG, cechy filtracji, odniesienie CAR/Cz, analiza multiverse, PSD z kontrolą jednostek, pseudoreplikacja, round-trip MNE-BIDS oraz walidacja pochodzenia danych.
 
-- [Slajdy główne Marp, 14 slajdów](slides.md).
-- [Aneks techniczny Marp, 21 slajdów](slides-detailed-v1.1.md).
-- [Notatki prowadzącego](speaker-notes.md).
-- [Rozszerzone notatki](speaker-notes-detailed-v1.1.md).
-- [Scenariusz przeprowadzenia pokazu i komendy](demo.md).
-- [Wykonywalny pipeline dla realnego EDF lub lokalnego EEG](real_eeg_pipeline.py).
-- [Eksport rzeczywistych EDF do wstępnej struktury EEG-BIDS](export_physionet_bids.py).
-- [Offline smoke test na sygnale wytworzonym w kodzie](test_pipeline.py).
-- [Źródła naukowe i prawa do danych](references.md).
+**Wykresy metodologiczne w plikach PPTX/PDF w bieżącej wersji oparto na danych syntetycznych.** Odtwarzalny skrypt i osiem źródłowych obrazów zostały dostarczone w paczce źródłowej razem z gotową prezentacją. Żaden z nich nie jest przedstawiany jako wynik PhysioNet lub własnego badania. Gotowe pliki PPTX/PDF są oddzielnymi artefaktami rozmowy; w repozytorium przechowujemy edytowalną treść Marp i dokumentację.
 
-## Uruchomienie end-to-end
+## Demonstracja realnego EEG
 
-W katalogu głównym repozytorium, z Pythonem 3.12:
+Wariant podstawowy: S001 z PhysioNet EEGMMIDB, R01 eyes-open i R02 eyes-closed. Oryginały EDF pochodzą z pomiaru BCI2000, przeprowadzonego przez autorów zbioru. Wariant alternatywny: własny pomiar po przejściu bramek walidacji aparatury. W obu przypadkach: metadane → QC → PSD → analiza wrażliwości → raport → ewentualna walidacja BIDS.
+
+**Nie opisujemy możliwości własnego programu na slajdach.** Oprogramowanie może jedynie prezentować zarejestrowany sygnał i wynik analizy; brak zwalidowanej akwizycji Muse S Athena pozostaje ograniczeniem.
+
+## Windows 11
 
 ```powershell
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install ".[bids,plot]"
+.\.venv\Scripts\python.exe -m pip install scipy
 .\.venv\Scripts\python.exe presentations\psychofizjologia-eeg-bids-2026\real_eeg_pipeline.py --source physionet --subject 1 --output data\demo\physionet-S001-EOEC-v1
 ```
 
-Po zakończeniu powstaną 2 wykresy PNG, CSV z PSD oraz JSON z parametrami i SHA-256. Skrypt pobiera wyłącznie dwie sesje bazowe. Wymaga połączenia z PhysioNet przy pierwszym uruchomieniu. **W tym środowisku nie pobrano rzeczywistych EDF**, dlatego slajdy 13 i 16 zawierają jawnie podpisane ilustracje syntetyczne. Należy zastąpić je wygenerowanymi figurami **dopiero po faktycznym wykonaniu analizy**.
-
-## Reprodukowalność i prywatność
-
-Surowe pliki EEG, własne nagrania i dane uczestników pozostają lokalnie, poza kontrolą wersji. Nie nadpisuj oryginałów i nie dopisuj brakującej aparatury/referencji do metadanych. Kod, artefakty i wyniki eksperymentu nie zastępują walidacji sprzętowej ani klinicznej.
-
-## Generowanie prezentacji
-
-`slides.md` jest źródłem Marp (16:9), które można eksportować do PPTX/PDF darmowym Marp CLI. Wersje PPTX/PDF v1.0.0 oraz v1.1.0 przygotowano jako artefakty rozmowy; repozytorium zachowuje edytowalne źródła, instrukcje oraz Python.
+Przy pierwszym uruchomieniu pobierane są dwa EDF. Nie zapisuj nagrań uczestników ani danych osobowych w repozytorium.
