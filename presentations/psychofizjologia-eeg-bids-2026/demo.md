@@ -1,40 +1,74 @@
-# Pokaz na Windows 11: syntetyczne EO/EC → EEG-BIDS
+# Demonstracja EEG na danych rzeczywistych (wersja 1.1.0)
 
-**Przed demonstracją:** lokalnie Python 3.12, klon projektu, utworzona `.venv`, biblioteki z `.[bids,plot]`; uruchomione lokalne testy. Pokaz nie łączy się z urządzeniem EEG.
+## Dwie ścieżki
 
-W głównym katalogu repozytorium (`PowerShell`):
+1. **Podstawowa: PhysioNet EEG Motor Movement/Imagery Dataset**, uczestnik S001; run 1 (EO) oraz run 2 (EC). To rzeczywiste sygnały 64-kanałowe (160 Hz, EDF+), pozyskane wcześniej przez autorów z wykorzystaniem BCI2000. Nie przedstawiamy ich jako własnej akwizycji.
+2. **Alternatywna: własny zapis EEG** wyłącznie po rzeczywistym pobraniu danych oraz weryfikacji mapowania kanałów, referencji, jednostek, próbkowania, błędów transmisji i znaczników czasu. Dla Muse S Athena fizyczna walidacja w repozytorium pozostaje bramką otwartą.
+
+## Przygotowanie środowiska Windows 11
+
+W katalogu głównym repozytorium utwórz odrębne środowisko z Pythonem 3.12:
 
 ```powershell
-.\windows\setup_environment.bat
+py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install ".[bids,plot]"
-.\.venv\Scripts\python.exe -m eeg_athenalyze experiment run eyes-open-closed --output data\demo --duration-scale 0.05 --seed 42
 ```
 
-Odczytaj ze standardowego wyjścia ścieżkę pliku `.eegz` utworzonego w nowej sesji. Nie zgaduj nazwy ani nie nadpisuj istniejących plików. Wstaw rzeczywistą ścieżkę w poniższych przykładach:
+Nie instaluj pakietów globalnie. Wymagana jest łączność internetowa przy pierwszym pobraniu publicznych EDF. Repozytorium nie powinno zawierać pobranych surowych danych uczestników.
+
+## Uruchomienie na PhysioNet
 
 ```powershell
-$session = "data\demo\TU_WSTAW_NOWE_NAGRANIE.eegz"
-$dataset = "data\bids\ds-demo-20261028-UNIKALNY-IDENTYFIKATOR"
-.\.venv\Scripts\python.exe -m eeg_athenalyze analyze --session $session
-.\.venv\Scripts\python.exe -m eeg_athenalyze plot --session $session --view psd --output data\demo\demo-psd.png
-.\.venv\Scripts\python.exe -m eeg_athenalyze bids export --session $session --dataset $dataset
-.\.venv\Scripts\python.exe -m eeg_athenalyze bids validate --dataset $dataset
+.\.venv\Scripts\python.exe presentations\psychofizjologia-eeg-bids-2026\real_eeg_pipeline.py --source physionet --subject 1 --eegbci-cache data\external\eegbci --output data\demo\physionet-S001-EOEC-v1
 ```
 
-Opcjonalnie porównaj eksport z MNE-BIDS w osobnym skrypcie, jeśli walidator przeszedł i ścieżka do zbioru jest poprawna. Polecenie `bids derivatives` jest osobnym krokiem i dotyczy własnego formatu pochodnych alfa, nie dowodu jego pełnej zgodności ze wszystkimi konwencjami BIDS Derivatives.
+Skrypt pobiera **tylko runy 1 i 2**, pozostawia oryginalne EDF bez zmian i zapisuje:
 
-## Co pokazujesz
-1. Raport HTML: widok EO vs EC; podpis **dane syntetyczne**.
-2. Widmo PSD: jednostki na osiach, informacja o estymatorze i zakresie pasma.
-3. Katalog BIDS: `dataset_description.json`, `sub-*/eeg/`, `channels.tsv`, sidecar `eeg.json`, ewentualne zdarzenia.
-4. Komunikat walidatora: kod zakończenia, liczbę błędów i ostrzeżeń, wersję narzędzia (zanotować). Nie deklaruj sukcesu przed sprawdzeniem.
+- `01_raw_eeg.png` – surowy sygnał w funkcji czasu (pierwsze 8 s obu sesji);
+- `02_welch_psd.png` – widma EO i EC z zaznaczonym pasmem alfa;
+- `03_welch_psd.csv` – tabelę częstotliwości i PSD w µV²/Hz;
+- `04_manifest.json` – SHA-256 danych, ustawienia, kontrolę jakości, wersje bibliotek i ograniczenia.
 
-## Kontrole jakości / awaryjny plan
-- Uruchom całość dzień wcześniej; zachowaj **lokalnie**, poza Git, plik HTML i zrzuty ekranu lub PDF dla trybu offline.
-- Jeśli brak zależności, uruchom wcześniejszy raport i omów strukturę; nie maskuj błędu.
-- Jeśli BIDS Validator zgłosi błąd, potraktuj go jako demonstrację procesu kontroli, nie „mały szczegół”.
-- Unikaj prawdziwych danych uczestników i danych identyfikowalnych.
+Nie uruchamiaj skryptu do tego samego niepustego katalogu wynikowego: chroni przed nadpisaniem.
 
-## Rozszerzenie po zajęciach: prawdziwy zbiór otwarty
-PhysioNet EEG Motor Movement/Imagery Dataset: https://physionet.org/content/eegmmidb/1.0.0/
-Run 1 = eyes open, run 2 = eyes closed; 64 kanały, 160 Hz, EDF+. Są to **oddzielne pliki rzeczywistego zapisu**, nie pliki wejściowe `.eegz` dla powyższego polecenia. Analiza wymaga osobnego skryptu MNE, kontroli metadanych, kanałów i zgód licencyjnych; nie przypisuj wyników z danych syntetycznych do PhysioNet.
+## Alternatywna rejestracja
+
+Po walidacji sprzętu i jakości sygnału, np. w dwóch plikach EDF:
+
+```powershell
+.\.venv\Scripts\python.exe presentations\psychofizjologia-eeg-bids-2026\real_eeg_pipeline.py --source local --eo D:\EEG\eyes-open.edf --ec D:\EEG\eyes-closed.edf --channel AF7 --output data\demo\local-EOEC-v1
+```
+
+Własne dane mogą używać `EDF`, `VHDR` lub `FIF`. Format `.eegz` z EEG Neurolyze **nie jest** akceptowany przez ten skrypt bez osobnej, prawidłowo zweryfikowanej konwersji. O ile elektrody są tylko czołowe / skroniowe, nie przypisuj wzorców z kanału Oz do innego montażu. Zapisy ludzi pozostają prywatne i poza Git.
+
+## Opcjonalny eksport źródłowych EDF do EEG-BIDS
+
+Uruchom po pobraniu danych. **Nie zapisuj template/idealized montage jako zmierzonych pozycji elektrod.** Jeżeli częstotliwość sieci jest nieznana, nie zgaduj jej. Wynik jest kandydatem BIDS aż do przejścia oficjalnego walidatora i kontroli metadanych:
+
+```powershell
+.\\.venv\\Scripts\\python.exe presentations\\psychofizjologia-eeg-bids-2026\\export_physionet_bids.py --subject 1 --output data\\bids\\physionet-S001-v1
+```
+
+## Metody i ograniczenia
+
+- Screening: |amplituda| > 150 µV w jednosekundowych oknach. Flagi są raportowane, ale dane **nie są automatycznie odrzucane**. To nie jest usuwanie EOG/EMG.
+- Filtr 1–40 Hz na kopii sygnału; estymacja Welcha `n_fft=256`, `n_overlap=128`; pasmo alfa 8–13 Hz.
+- Jedna osoba i dwa odrębne runy, bez kontroli kolejności i wnioskowania populacyjnego.
+- Wyniki nie mają wartości diagnostycznej; kontrolę jakości trzeba rozbudować przed analizą naukową.
+- Własne dane wymagają odpowiedniej zgody i anonimizacji przed ewentualnym udostępnieniem.
+
+## Wstawienie prawdziwych ilustracji na slajdy
+
+Po zakończonej analizie zamień **tylko** obrazy na slajdach 13 i 16: wykresy ilustracyjne są podpisane „symulacja, nie PhysioNet”. Wstaw odpowiednio `01_raw_eeg.png` i `02_welch_psd.png`; na obu podaj numer uczestnika/warunki, kanał, metodę i pochodzenie. Nie usuwaj ostrzeżenia, dopóki nie zastąpisz grafiki rzeczywistymi wynikami.
+
+## Scenariusz na żywo (8–10 min)
+
+Pokaż schemat historycznej akwizycji BCI2000, oryginalny EDF, kontrolę sfreq/typów/jednostek, obraz przebiegu, filtrację i screening, PSD oraz manifest. Możesz dodatkowo otworzyć pliki BIDS i wynik **oficjalnego** BIDS Validator; eksport danych nie gwarantuje zgodności. W trybie awaryjnym korzystaj z wcześniej przygotowanych raportów na podstawie prawdziwych plików, a nie z nieoznaczonej symulacji.
+
+## Test niezależny od internetu
+
+```powershell
+.\.venv\Scripts\python.exe presentations\psychofizjologia-eeg-bids-2026\test_pipeline.py
+```
+
+Test wytwarza sztuczne FIF **wyłącznie do testowania kodu**. Nie należy prezentować ich jako rejestracji ludzkiej.
