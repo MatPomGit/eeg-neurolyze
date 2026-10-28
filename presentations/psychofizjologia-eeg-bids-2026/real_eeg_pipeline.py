@@ -19,6 +19,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import mne
 import numpy as np
+from scipy.integrate import trapezoid
 
 ALPHA = (8.0, 13.0)
 F_RANGE = (1.0, 40.0)
@@ -121,7 +122,7 @@ def compute_welch(raw: mne.io.BaseRaw, channel: str):
     psd, freqs = spec.get_data(return_freqs=True)
     psd_uv = psd[0] * 1e12  # MNE returns V²/Hz -> µV²/Hz
     alpha = (freqs >= ALPHA[0]) & (freqs <= ALPHA[1])
-    alpha_power = float(np.trapezoid(psd_uv[alpha], x=freqs[alpha]))
+    alpha_power = float(trapezoid(psd_uv[alpha], x=freqs[alpha]))
     return filtered, freqs, psd_uv, alpha_power
 
 
@@ -185,7 +186,8 @@ def main() -> None:
         writer.writerow(["frequency_hz", "EO_uv2_per_hz", "EC_uv2_per_hz"])
         writer.writerows(zip(freqs_last, psds["EO"], psds["EC"]))
     outcome={
-        "data_kind": "REAL EEG recording (not simulation)",
+        "data_kind": ("public empirical EEG" if args.source == "physionet"
+                      else "local recording, empirical status unverified"),
         "data_source": "PhysioNet EEGMMIDB v1.0.0" if args.source == "physionet" else "local recordings (provenance supplied by operator)",
         "provenance": {name: {"input_filename": path.name,"sha256":sha256(path),
                               "n_channels":len(raws[name].ch_names),
