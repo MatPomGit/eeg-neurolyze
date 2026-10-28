@@ -41,6 +41,14 @@ Po walidacji sprzętu i jakości sygnału, np. w dwóch plikach EDF:
 
 Własne dane mogą używać `EDF`, `VHDR` lub `FIF`. Format `.eegz` z EEG Neurolyze **nie jest** akceptowany przez ten skrypt bez osobnej, prawidłowo zweryfikowanej konwersji. O ile elektrody są tylko czołowe / skroniowe, nie przypisuj wzorców z kanału Oz do innego montażu. Zapisy ludzi pozostają prywatne i poza Git.
 
+## Opcjonalny eksport źródłowych EDF do EEG-BIDS
+
+Uruchom po pobraniu danych. **Nie zapisuj template/idealized montage jako zmierzonych pozycji elektrod.** Jeżeli częstotliwość sieci jest nieznana, nie zgaduj jej. Wynik jest kandydatem BIDS aż do przejścia oficjalnego walidatora i kontroli metadanych:
+
+```powershell
+.\\.venv\\Scripts\\python.exe presentations\\psychofizjologia-eeg-bids-2026\\export_physionet_bids.py --subject 1 --output data\\bids\\physionet-S001-v1
+```
+
 ## Metody i ograniczenia
 
 - Screening: |amplituda| > 150 µV w jednosekundowych oknach. Flagi są raportowane, ale dane **nie są automatycznie odrzucane**. To nie jest usuwanie EOG/EMG.
