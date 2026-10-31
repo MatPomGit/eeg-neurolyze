@@ -22,6 +22,8 @@ W czasie pracy aktualizuj Issue po osiągnięciu mierzalnego etapu; utrwal ident
 
 ## Review, merge i deployment
 
+Przed zmianą architektury odczytaj kanoniczny opis i powiązane ADR. W tym samym PR uaktualnij opis architektury; przy nowej decyzji dodaj nowy ADR lub wskaż dokument zastępujący poprzedni. Nie przepisuj historii zaakceptowanych ADR bez uzasadnienia.
+
 Przed PR: pełny diff, ścieżki, zgodność z architekturą, dane i sekrety, testy z dokładnym SHA. Weryfikuj aktualność bazy, konflikty, status obowiązujących checks i recenzje. `COMMENT` z audytem jest dowodem przeglądu wewnętrznego, nie formalnym `APPROVED` ani niezależną recenzją osoby. Dla nowego HEAD powtórz testy adekwatne do zmiany. Nie obchodź branch protection.
 
 Scal tylko z autoryzacją, zielonymi wymaganymi checks i znaną wersją. Po scaleniach sprawdzaj main, a osobno rzeczywiste wdrożenie, smoke, wersję i logi, jeśli obejmuje je zakres. Nie uznawaj stanu `merged` za `deployed`. Dla GitHub Pages weryfikuj sukces workflow publikacji i finalną stronę.
