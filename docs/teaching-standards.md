@@ -1,6 +1,6 @@
 # Standard materiałów dydaktycznych
 
-[Indeks](index.md) | [AGENTS.md](../AGENTS.md) | [Przewodnik PL](pl/index.md) | [Przewodnik EN](en/index.md)
+[Indeks](index.md) | [AGENTS.md](https://github.com/MatPomGit/eeg-neurolyze/blob/main/AGENTS.md) | [Przewodnik PL](pl/index.md) | [Przewodnik EN](en/index.md)
 
 EEG Neurolyze udostępnia dwujęzyczne materiały laboratoryjne i prezentację EEG-BIDS. Przed edycją porównaj obie wersje oraz istniejące polecenia CLI. Każda instrukcja ma prowadzić krok po kroku do sprawdzalnego artefaktu, bez zbędnych długich celów dydaktycznych, wstępów i oczywistych wskazówek. Podaj precyzyjne ścieżki, wersje i warunki zaliczenia. Zadania dodatkowe umieszczaj przed zamknięciem ćwiczenia.
 

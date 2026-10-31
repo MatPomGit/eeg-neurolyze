@@ -1,6 +1,6 @@
 # Zasady obsługi GitHub Issues
 
-[Indeks](index.md) | [AGENTS.md](../AGENTS.md) | [Workflow agenta](development/agent-workflow.md)
+[Indeks](index.md) | [AGENTS.md](https://github.com/MatPomGit/eeg-neurolyze/blob/main/AGENTS.md) | [Workflow agenta](development/agent-workflow.md)
 
 GitHub Issues to kanoniczny rejestr zakresu i statusu pracy; milestones reprezentują etapy. `TODO.md` i [roadmap](architecture/ROADMAP.md) opisują plan, lecz nie zastępują aktywnego Issue. Przed nowym Issue szukaj już istniejącego, odczytaj komentarze i powiązane PR.
 

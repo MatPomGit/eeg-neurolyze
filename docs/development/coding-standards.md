@@ -1,6 +1,6 @@
 # Standardy implementacji
 
-[Dokumentacja](../index.md) | [AGENTS.md](../../AGENTS.md) | [Walidacja](testing.md)
+[Dokumentacja](../index.md) | [AGENTS.md](https://github.com/MatPomGit/eeg-neurolyze/blob/main/AGENTS.md) | [Walidacja](testing.md)
 
 ## Zakres i kontrakty
 

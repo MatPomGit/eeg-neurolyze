@@ -1,6 +1,6 @@
 # Walidacja, CI i bramki integracji
 
-[Dokumentacja](../index.md) | [AGENTS.md](../../AGENTS.md) | [Workflow agenta](agent-workflow.md) | [Budżety](document-budgets.md)
+[Dokumentacja](../index.md) | [AGENTS.md](https://github.com/MatPomGit/eeg-neurolyze/blob/main/AGENTS.md) | [Workflow agenta](agent-workflow.md) | [Budżety](document-budgets.md)
 
 ## Kontrole lokalne
 

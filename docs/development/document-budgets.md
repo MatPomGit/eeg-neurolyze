@@ -1,6 +1,6 @@
 # Budżety dokumentacji
 
-[Indeks](../index.md) | [AGENTS.md](../../AGENTS.md) | [Testowanie](testing.md)
+[Indeks](../index.md) | [AGENTS.md](https://github.com/MatPomGit/eeg-neurolyze/blob/main/AGENTS.md) | [Testowanie](testing.md)
 
 Limity dotyczą liczby znaków Unicode treści Markdown, łącznie ze spacjami i składnią. Weryfikuj je przed utworzeniem i zmianą dokumentu. Historycznych notatek, manuskryptów i danych nie skracaj mechanicznie.
 

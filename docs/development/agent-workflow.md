@@ -1,6 +1,6 @@
 # Autonomiczna praca agentów
 
-[Dokumentacja](../index.md) | [AGENTS.md](../../AGENTS.md) | [Procedura Issues](../issue-operating-procedure.md) | [Testy](testing.md)
+[Dokumentacja](../index.md) | [AGENTS.md](https://github.com/MatPomGit/eeg-neurolyze/blob/main/AGENTS.md) | [Procedura Issues](../issue-operating-procedure.md) | [Testy](testing.md)
 
 ## Wejście i wznowienie
 
