@@ -26,6 +26,11 @@ jobs:
         run: python -m pip install .
       - name: Run standard-library test suite
         run: python -m unittest discover -s tests -v
+      - name: Build documentation (no deployment)
+        if: runner.os == 'Linux'
+        run: |
+          python -m pip install -r requirements-docs.txt
+          python -m mkdocs build --clean
       - name: Verify Windows launcher
         if: runner.os == 'Windows'
         shell: cmd
