@@ -12,12 +12,13 @@ Statuses: **implemented** = code present; **verified** = relevant executed tests
 | M06 Education | Six full bilingual laboratories, MkDocs Pages, figures, Windows tutorials | PL/EN equivalence, link and executable-command checks |
 | M07 Advanced | ERP/BCI/real-time features, additional devices as separately validated plugins | Scientific feasibility and hardware timing validation appropriate to each feature |
 
-## Implementation snapshot: 2026-10-12
-- M01: code and launchers present; original synthetic pipeline has automated tests. Verification status must follow actual CI, not documentation assertions.
-- M02: initial BrainVision exporter and official validator merged in PR #4; custom derivative export is under review in PR #5, not yet merged. Physical device metadata/real timing remain unverified.
-- M03: native BrainFlow acquisition adapter, diagnostics, CLI, local archive and mocked CI tests developed in the M03 PR. **Physical hardware validation remains pending**.
-- M04-M07: planned. Do not mark implemented without merged code and evidence.
-- Package imports retain `eeg_athenalyze`; public project is EEG Neurolyze. Naming migration requires compatibility ADR.
+## Implementation snapshot: 2026-10-31
+- M01: synthetic pipeline, protected `.eegz`, HTML reports, launchers and unit tests exist. The Core tests workflow for main SHA `41f62c4566e5c368c190ef1a971119ce9b60bfde` completed successfully on 2026-10-28; this does not qualify real EEG.
+- M02: `src/eeg_athenalyze/bids.py` implements synthetic-only BrainVision export and official validator invocation. `derivatives.py` implements custom derivatives. Formal BIDS validity is dataset-specific; real-device source is not admitted.
+- M03: BrainFlow Athena adapter, CLI, BLE diagnostics, acquisition journal, QC logic and automated offline tests exist. **On-device quality and source-clock reliability remain unverified**; track #40, #48, #53 and related Issues.
+- M04-M07: psychoPy/LSL and advanced protocols remain planned. Separate PhysioNet processing is not an integrated M04 deliverable.
+- Package imports retain `eeg_athenalyze`; public project is EEG Neurolyze. Naming migration requires ADR-0006.
+- Potential public raw EEG privacy exposure: [Issue #81](https://github.com/MatPomGit/eeg-neurolyze/issues/81).
 
 ## Research-grade gates
 1. **Data:** immutable original values and timing with checksums; interrupted session retained.
@@ -28,4 +29,4 @@ Statuses: **implemented** = code present; **verified** = relevant executed tests
 6. **Privacy:** pseudonymous identifiers; no accidental exposure through Git or reports.
 
 ## Next recommended implementation
-M02: complete PR #5 CI and review custom derivatives, then verify the complete EEG metadata/event mapping and retained provenance against official BIDS rules before declaring the milestone fully closed. M03 hardware integration follows in a bounded PR; acceptance still requires Windows 11 tests with physical Muse S Athena, clock-gap characterization and safe interrupted-session archival.
+Prioritize evidence-level consistency (#37), verification of the tracked EEGZ disclosure (#81), and physical Muse S Athena qualification (#40, #48, #53). Recheck the existing synthetic EEG-BIDS exporter against official rules for each dataset before any claim of compliance. Do not open a duplicate M02 implementation PR.

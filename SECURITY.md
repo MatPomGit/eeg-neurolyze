@@ -1,21 +1,11 @@
-# Security Policy
+# Polityka bezpieczeństwa
 
-## Supported Versions
+## Obsługiwane wersje
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+Bieżąca wersja pakietu jest deklarowana w [pyproject.toml](pyproject.toml) jako `0.1.0`. Projekt rozwija się aktywnie; nie deklaruje się utrzymania nieistniejących serii 4.x/5.x ani gwarantowanych terminów reakcji. Aktualną gałąź `main` sprawdzaj wraz ze stanem poprawek i CI.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+## Zgłaszanie podatności
 
-## Reporting a Vulnerability
+Nie umieszczaj sekretów, tokenów, surowych EEG, identyfikatorów uczestników ani sposobu wykorzystania podatności w publicznym Issue lub PR. Skorzystaj z prywatnego mechanizmu zgłoszeń GitHub, jeśli jest włączony w zakładce Security repozytorium; w przeciwnym razie skontaktuj się z właścicielem poza publicznym Issue, zanim przekażesz szczegóły. Nie zakładaj, że publiczne repozytorium oznacza zgodę na publikację sygnałów.
 
-Use this section to tell people how to report a vulnerability.
-
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+Zgłoszenie powinno podawać wersję/commit, klasę problemu, minimalne odtwarzalne kroki bez danych wrażliwych, wpływ i sugerowane ograniczenie ryzyka. Publiczne podsumowanie opublikuj dopiero po skoordynowanej naprawie. Stan śledzonego artefaktu EEGZ jest rozpatrywany osobno w [Issue #81](https://github.com/MatPomGit/eeg-neurolyze/issues/81).

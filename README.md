@@ -65,7 +65,7 @@ Reanalyze an archived session without reacquiring data:
 .venv\Scripts\eeg-athenalyze.exe analyze --session data\local\ec.eegz
 ```
 
-The analysis reports per-channel 8–13 Hz alpha-band power for eyes-open and
+The analysis reports per-channel 8-13 Hz alpha-band power for eyes-open and
 eyes-closed blocks. It is an educational signal summary, not a diagnosis or a
 validated BIDS export.
 
@@ -107,3 +107,12 @@ The primary EO/EC walkthrough is synthetic; a separate real-data PhysioNet
 workflow is available under the presentation folder and the MkDocs site.
 Hardware acquisition remains unvalidated, and BIDS compliance must be checked
 for each dataset with the official validator.
+
+## Repozytorium dla współpracujących agentów
+
+- [Zasady AGENTS.md](AGENTS.md): punkt wejścia do bezpiecznego agentic workflow.
+- [Procedura pracy i przejęcia zadania](docs/development/agent-workflow.md), [obsługa Issues](docs/issue-operating-procedure.md).
+- [Walidacja i komendy testów](docs/development/testing.md), [budżety i linki dokumentacji](docs/development/document-budgets.md).
+- [Reprodukowalność EEG](docs/research/reproducibility.md), [terminologia](docs/glossary.md), [standardy dydaktyczne](docs/teaching-standards.md).
+
+Repozytorium ma limit dwóch aktywnych gałęzi i dwóch otwartych PR. Nie traktuj przejścia testów syntetycznych jako walidacji pomiaru Muse S Athena. Status publicznego pliku EEGZ i wymagane działanie właściciela: [Issue #81](https://github.com/MatPomGit/eeg-neurolyze/issues/81).

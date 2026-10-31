@@ -81,3 +81,13 @@ nav:
       - Kamienie milowe: architecture/ROADMAP.md
       - Decyzje ADR: architecture/adr/README.md
       - Dziennik badań: research/index.md
+  - Praca nad projektem:
+      - Praca agentów: development/agent-workflow.md
+      - Procedura Issues: issue-operating-procedure.md
+      - Standardy kodu: development/coding-standards.md
+      - Testy i CI: development/testing.md
+      - Standardy języka: development/writing-standards.md
+      - Budżety dokumentów: development/document-budgets.md
+      - Reprodukowalność EEG: research/reproducibility.md
+      - Słownik terminów: glossary.md
+      - Dydaktyka: teaching-standards.md
