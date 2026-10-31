@@ -9,8 +9,8 @@
 *.bat text eol=crlf
 *.eegz binary
 *.edf binary
-*.vhdr text eol=lf
-*.vmrk text eol=lf
+*.vhdr binary
+*.vmrk binary
 *.png binary
 *.jpg binary
 *.pdf binary
