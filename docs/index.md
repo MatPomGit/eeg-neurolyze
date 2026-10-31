@@ -32,7 +32,7 @@ flowchart LR
 | Walidacja sprzętu | [Muse S Athena](pl/muse-athena.md) | [Muse S Athena](en/muse-athena.md) |
 | Status projektu | [Roadmap](architecture/ROADMAP.md) | [ADRs](architecture/adr/README.md) |
 
-**Aktualizacja dokumentacji:** 2026-10-28. Materiały opisują możliwości oprogramowania i ograniczenia, nie oferują diagnozy medycznej.
+**Aktualizacja dokumentacji:** 2026-10-31. Materiały opisują możliwości oprogramowania i ograniczenia, nie oferują diagnozy medycznej.
 
 ## Rozwój projektu i autonomiczni agenci
 
