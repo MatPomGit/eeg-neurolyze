@@ -22,6 +22,8 @@ jobs:
           cache: pip
       - name: Check agent documentation and links
         run: python tools/check_agent_docs.py
+      - name: Check research evidence index
+        run: python tools/check_project_state.py
       - name: Install package
         run: python -m pip install .
       - name: Run standard-library test suite
