@@ -1,0 +1,262 @@
+{
+  "schema_version": 1,
+  "kind": "scientific_evidence_snapshot",
+  "repository": "MatPomGit/eeg-neurolyze",
+  "snapshot": {
+    "observed_date": "2026-10-31",
+    "base_sha": "24138e1be01a759d97a5aa974120de61a0d0a0b0",
+    "note": "Historical, source-linked scientific evidence. Not a live operational controller or release approval."
+  },
+  "authoritative_sources": [
+    "AGENTS.md",
+    "docs/architecture/PROJECT-CONCEPT.md",
+    "docs/architecture/ROADMAP.md",
+    "TODO.md",
+    "docs/research/reproducibility.md"
+  ],
+  "scientific_evidence_levels": [
+    "PLANNED",
+    "SOFTWARE_TESTED",
+    "REAL_DATA_ANALYSIS",
+    "HARDWARE_MEASURED",
+    "DATASET_VALIDATED"
+  ],
+  "milestones": [
+    {
+      "id": "M01",
+      "implementation": "present",
+      "evidence_level": "SOFTWARE_TESTED",
+      "verified_scope": "Synthetic EO/EC, immutable checksummed archive, spectral HTML and Windows launchers",
+      "source_paths": [
+        "src/eeg_athenalyze/recording.py",
+        "src/eeg_athenalyze/archive.py",
+        "tests/test_archive.py",
+        "tests/test_eyes_open_closed.py",
+        "windows/run_synthetic_demo.bat"
+      ],
+      "related_issues": [
+        24,
+        25
+      ],
+      "verification": {
+        "kind": "github_actions",
+        "run_url": "https://github.com/MatPomGit/eeg-neurolyze/actions/runs/41193952363",
+        "sha": "24138e1be01a759d97a5aa974120de61a0d0a0b0",
+        "test_paths": [
+          "tests/test_archive.py",
+          "tests/test_eyes_open_closed.py"
+        ],
+        "scope": "software_only"
+      }
+    },
+    {
+      "id": "M02",
+      "implementation": "partial",
+      "evidence_level": "SOFTWARE_TESTED",
+      "verified_scope": "Synthetic-only BrainVision EEG-BIDS exporter and derivative code; no validated physical data",
+      "source_paths": [
+        "src/eeg_athenalyze/bids.py",
+        "src/eeg_athenalyze/derivatives.py",
+        "tests/test_bids.py",
+        "tests/test_derivatives.py"
+      ],
+      "related_issues": [
+        29
+      ],
+      "verification": {
+        "kind": "github_actions",
+        "run_url": "https://github.com/MatPomGit/eeg-neurolyze/actions/runs/41193952363",
+        "sha": "24138e1be01a759d97a5aa974120de61a0d0a0b0",
+        "test_paths": [
+          "tests/test_bids.py",
+          "tests/test_derivatives.py"
+        ],
+        "scope": "software_only"
+      },
+      "synthetic_only": true,
+      "real_hardware_dataset_validated": null
+    },
+    {
+      "id": "M03",
+      "implementation": "partial",
+      "evidence_level": "SOFTWARE_TESTED",
+      "verified_scope": "Athena adapter, diagnostics and offline parser/quality tests; hardware acquisition not qualified",
+      "source_paths": [
+        "src/eeg_athenalyze/muse_athena.py",
+        "src/eeg_athenalyze/acquisition_journal.py",
+        "tests/test_muse_athena.py",
+        "tests/test_athena_packet_reference.py",
+        "docs/research/2026-10-16-athena-hardware-validation-runbook.md"
+      ],
+      "related_issues": [
+        21,
+        22,
+        23,
+        26,
+        27,
+        28,
+        30,
+        31,
+        38,
+        40,
+        47,
+        48,
+        49,
+        53
+      ],
+      "verification": {
+        "kind": "github_actions",
+        "run_url": "https://github.com/MatPomGit/eeg-neurolyze/actions/runs/41193952363",
+        "sha": "24138e1be01a759d97a5aa974120de61a0d0a0b0",
+        "test_paths": [
+          "tests/test_muse_athena.py",
+          "tests/test_athena_packet_reference.py"
+        ],
+        "scope": "software_only"
+      },
+      "physical_qualification": null,
+      "timing_calibration": null
+    },
+    {
+      "id": "M04",
+      "implementation": "planned",
+      "evidence_level": "PLANNED",
+      "verified_scope": "PsychoPy/LSL experiment adapter and marker synchronization are not integrated",
+      "source_paths": [
+        "docs/architecture/PROJECT-CONCEPT.md",
+        "docs/architecture/adr/0003-psychopy-lsl.md"
+      ],
+      "related_issues": [
+        32,
+        43
+      ],
+      "verification": null,
+      "timestamp_accuracy": null
+    },
+    {
+      "id": "M05",
+      "implementation": "planned",
+      "evidence_level": "PLANNED",
+      "verified_scope": "Stroop, N-back and extensible experiment registry not validated end-to-end",
+      "source_paths": [
+        "docs/architecture/ROADMAP.md",
+        "TODO.md"
+      ],
+      "related_issues": [
+        32,
+        33
+      ],
+      "verification": null
+    },
+    {
+      "id": "M06",
+      "implementation": "partial",
+      "evidence_level": "SOFTWARE_TESTED",
+      "verified_scope": "Bilingual MkDocs site builds and publishes; six complete laboratory tutorials remain unverified",
+      "source_paths": [
+        "docs/pl/index.md",
+        "docs/en/index.md",
+        "mkdocs.yml",
+        "docs/teaching-standards.md"
+      ],
+      "related_issues": [
+        25
+      ],
+      "verification": {
+        "kind": "github_actions",
+        "run_url": "https://github.com/MatPomGit/eeg-neurolyze/actions/runs/41193952477",
+        "sha": "24138e1be01a759d97a5aa974120de61a0d0a0b0",
+        "test_paths": [
+          "tools/check_agent_docs.py"
+        ],
+        "scope": "software_only"
+      },
+      "complete_laboratory_series": null
+    },
+    {
+      "id": "M07",
+      "implementation": "planned",
+      "evidence_level": "PLANNED",
+      "verified_scope": "ERP/BCI/online modules and arbitrary-device validation not delivered",
+      "source_paths": [
+        "docs/architecture/ROADMAP.md",
+        "TODO.md"
+      ],
+      "related_issues": [
+        33,
+        34
+      ],
+      "verification": null
+    }
+  ],
+  "publications": [
+    {
+      "id": "software-methods",
+      "origin_issue": 35,
+      "status": "proposed",
+      "evidence_level": "PLANNED",
+      "manuscript_path": null,
+      "approved_title": null,
+      "submission": null,
+      "source_paths": [
+        "docs/architecture/ROADMAP.md",
+        "docs/research/reproducibility.md"
+      ]
+    },
+    {
+      "id": "device-qualification",
+      "origin_issue": 35,
+      "status": "proposed",
+      "evidence_level": "PLANNED",
+      "manuscript_path": null,
+      "approved_title": null,
+      "submission": null,
+      "depends_on_issues": [
+        31,
+        38,
+        40,
+        81
+      ],
+      "source_paths": [
+        "docs/research/2026-10-16-athena-hardware-validation-runbook.md"
+      ]
+    }
+  ],
+  "blockers": [
+    {
+      "issue": 81,
+      "status": "WAITING_FOR_USER",
+      "domain": "public_data_rights",
+      "evidence": "Publicly tracked Athena EEGZ requires owner provenance/rights decision; do not republish or infer participant status."
+    },
+    {
+      "issue": 40,
+      "status": "HUMAN_REQUIRED",
+      "domain": "physical_device",
+      "evidence": "Three-by-60-second device qualification matrix has no confirmed on-device validation for each required combination."
+    },
+    {
+      "issue": 38,
+      "status": "UNRESOLVED",
+      "domain": "signal_quality",
+      "evidence": "Prior exploratory nominal-clock diagnostics cannot establish calibrated hardware accuracy or physiological validity."
+    }
+  ],
+  "issue_references": [
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35
+  ]
+}
