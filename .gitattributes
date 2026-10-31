@@ -1,0 +1,17 @@
+# Stable text and platform-specific checkout.
+* text=auto
+*.py text eol=lf
+*.md text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.bat text eol=crlf
+*.eegz binary
+*.edf binary
+*.vhdr binary
+*.vmrk binary
+*.png binary
+*.jpg binary
+*.pdf binary
+*.pptx binary

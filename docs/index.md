@@ -32,4 +32,12 @@ flowchart LR
 | Walidacja sprzętu | [Muse S Athena](pl/muse-athena.md) | [Muse S Athena](en/muse-athena.md) |
 | Status projektu | [Roadmap](architecture/ROADMAP.md) | [ADRs](architecture/adr/README.md) |
 
-**Aktualizacja dokumentacji:** 2026-10-28. Materiały opisują możliwości oprogramowania i ograniczenia, nie oferują diagnozy medycznej.
+**Aktualizacja dokumentacji:** 2026-10-31. Materiały opisują możliwości oprogramowania i ograniczenia, nie oferują diagnozy medycznej.
+
+## Rozwój projektu i autonomiczni agenci
+
+- [Cykl pracy agentów](development/agent-workflow.md), [obsługa Issues](issue-operating-procedure.md), [testy i CI](development/testing.md).
+- [Standardy kodu](development/coding-standards.md), [języka](development/writing-standards.md), [budżety dokumentacji](development/document-budgets.md).
+- [Reprodukowalność badań](research/reproducibility.md), [terminologia EEG](glossary.md), [dydaktyka](teaching-standards.md).
+
+Instrukcja główna dla agentów jest w [AGENTS.md na GitHub](https://github.com/MatPomGit/eeg-neurolyze/blob/main/AGENTS.md); wejście dla użytkownika w [README](https://github.com/MatPomGit/eeg-neurolyze/blob/main/README.md). Dokumenty szczegółowe mają odnośniki zwrotne do tego indeksu.

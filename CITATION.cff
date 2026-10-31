@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use EEG Neurolyze in research, please cite this software."
+type: software
+title: "EEG Neurolyze"
+authors:
+  - given-names: "Mateusz"
+    family-names: "Pomianek"
+repository-code: "https://github.com/MatPomGit/eeg-neurolyze"
+url: "https://matpomgit.github.io/eeg-neurolyze/"
+license: "Apache-2.0"
+version: "0.1.0"

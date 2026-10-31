@@ -35,6 +35,8 @@ jobs:
           cache-dependency-path: requirements-docs.txt
       - name: Install pinned docs dependencies
         run: python -m pip install -r requirements-docs.txt
+      - name: Check agent documentation and links
+        run: python tools/check_agent_docs.py
       - name: Build MkDocs site
         run: python -m mkdocs build --clean
       - name: Validate site output

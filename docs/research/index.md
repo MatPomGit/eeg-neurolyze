@@ -10,3 +10,8 @@ Część badawcza zbiera metodologię, status weryfikacji sprzętu oraz założe
 - [Kryteria kontroli jakości i reprodukowalności](../pl/quality.md).
 
 Dokumentacja referencyjna oraz pliki naukowe są integralną częścią repozytorium [eeg-neurolyze](https://github.com/MatPomGit/eeg-neurolyze). Dane osób badanych nie są publikowane przez tę stronę.
+
+## Zasady eksperymentów
+
+- [Protokół reprodukowalności, danych i poziomów dowodów](reproducibility.md).
+- [Terminy EEG, zegarów i walidacji](../glossary.md).
