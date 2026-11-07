@@ -1,11 +1,10 @@
 # AGENTS.md: EEG Neurolyze
 
-## Submission-first editorial directive (2026-11-07)
+## 1. Zasady projektu
+
+### Submission-first editorial directive (2026-11-07)
 
 Follow [RESEARCH.md](RESEARCH.md#submission-first-publication-policy-author-directive-2026-11-07): prioritize author-approved submission of a scientifically defensible, completed manuscript over indefinite polishing driven by fear of rejection. An achievable publication even at 20 verified Polish evaluation points is preferable to an unpublished manuscript, but points and acceptance are not guaranteed. Prepare a journal shortlist, requirements, submission package and author decision; after rejection, propose revision and resubmission. Never bypass evidence, ethics, consent, novelty, safety or author-approval gates; do not submit, contact publishers or incur APC without explicit author approval.
-
-
-## 1. Zasady projektu
 
 ### Cel, stan i źródła prawdy
 Repozytorium `MatPomGit/eeg-neurolyze` rozwija lokalny, niekliniczny pipeline EEG: symulacja EO/EC, archiwizacja `.eegz`, analiza widmowa, raport HTML, eksport syntetycznego EEG do EEG-BIDS oraz eksperymentalny adapter Muse S Athena. Publiczna nazwa to EEG Neurolyze. Nazwy Pythona `eeg_athenalyze` i CLI `eeg-athenalyze` pozostają stabilne do migracji zgodnej z [ADR-0006](docs/architecture/adr/0006-project-naming.md).
