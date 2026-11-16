@@ -58,7 +58,7 @@ This implementation is especially useful to compare control-message order, notif
 | E: Physiological quality | Contact/ref review, 50 Hz ratio and near-rail QC, eyes-open/closed with stable recording | Quantified acceptable amplitude/artefact criteria approved by the study team |
 | F: Research export | Explicit hardware validation and research approval | BIDS export gate only relaxed after traceable evidence and validator checks |
 
-**Autonomous work:** implement CLI preset/latency options, fixed-config smoke tests with mocked hardware, raw BLE decoder review, offline comparisons, versioned reports. **Human/device work:** actual PC-BLE measurements, electrode adjustment, firmware identification, ethics/data-release decisions, physically synchronized timing. No claim of physical testing is made in this research document.
+**Software-only work:** implement CLI preset/latency options, fixed-config smoke tests with mocked hardware, raw BLE decoder review, offline comparisons, versioned reports. **Device-dependent work:** actual PC-BLE measurements, electrode adjustment, firmware identification, ethics/data-release decisions, physically synchronized timing. No claim of physical testing is made in this research document.
 
 ## Primary references (accessed 2026-10-16)
 
@@ -192,12 +192,12 @@ The example's 16-s PSD path detrends, notch-filters 48–52 and 58–62 Hz, band
 
 | Priority | Work package | Execution | Evidence needed |
 |---|---|---|---|
-| P0 | Inspect BlueMuse Athena packet-index, scaling, host dejittering and GATT serialization against BrainFlow native code | Autonomous source audit + software tests | Source-pinned decoder fixtures, wraparound cases, 14-bit rail checks |
+| P0 | Inspect BlueMuse Athena packet-index, scaling, host dejittering and GATT serialization against BrainFlow native code | Software-only source audit + software tests | Source-pinned decoder fixtures, wraparound cases, 14-bit rail checks |
 | P0 | Run matched \`p21;low_latency=true\` 60-s tests on Windows/Android where possible | Human/device | Same headset, battery/contact protocol, BrainFlow versions, sample counts/stalls/logs |
 | P1 | Test BlueMuse 3.1 Windows LSL/XDF with safe sideloading approval | Human/device | Raw stream and host-clock provenance; no automatic trust-root installation |
-| P1 | Preserve/use packet sequence counters in independent raw BLE backend | Autonomous code + device verification | Packet loss/jitter vs duplicated timestamp summary, not synthetic gap filling |
-| P2 | Add safe, schema-validated Mind Monitor CSV ingest *only if necessary* | Autonomous | No fill-forward, explicit invalid masks and sample rate/timestamps |
-| P3 | Unreal Engine plugin pathway | Autonomous architectural planning | Separate VR/HRI research requirements; no interference with existing Python core |
+| P1 | Preserve/use packet sequence counters in independent raw BLE backend | Software-only code + device verification | Packet loss/jitter vs duplicated timestamp summary, not synthetic gap filling |
+| P2 | Add safe, schema-validated Mind Monitor CSV ingest *only if necessary* | Software-only | No fill-forward, explicit invalid masks and sample rate/timestamps |
+| P3 | Unreal Engine plugin pathway | Software-only architectural planning | Separate VR/HRI research requirements; no interference with existing Python core |
 | N/A | Open Collective financing | None | No cost, subscription or purchase required |
 
 **General restrictions:** no real participant EEG in public CI or documentation; retain source bytes; no auto-filtering of suspected mains artifacts; preserve measured/host/reconstructed timestamp distinctions; do not unlock real EEG-BIDS based on simulated or self-reported external validation.

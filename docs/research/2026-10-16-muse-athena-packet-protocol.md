@@ -65,12 +65,12 @@ A \`get_board_data()\` empty poll is not a BLE packet; 40 empty polls/41 loops c
 
 ## 7. Next tests
 
-1. **Autonomous** (#47): verify packed 14-bit vectors, signed centered µV scale, four physical channels, frequency of full-scale raw codes, unknown/truncated tags and channel interleaving.
-2. **Autonomous** (#48): parse sequence indices from fixtures; simulate wrap/drop/reorder; preserve arrival timestamps.
-3. **Autonomous** (#49, #53): compare callback locking/serialization between BlueMuse 3.1 and BrainFlow's Windows native BLE implementation; create reproducible tests of stops after unexpected disconnect.
+1. **Software-only** (#47): verify packed 14-bit vectors, signed centered µV scale, four physical channels, frequency of full-scale raw codes, unknown/truncated tags and channel interleaving.
+2. **Software-only** (#48): parse sequence indices from fixtures; simulate wrap/drop/reorder; preserve arrival timestamps.
+3. **Software-only** (#49, #53): compare callback locking/serialization between BlueMuse 3.1 and BrainFlow's Windows native BLE implementation; create reproducible tests of stops after unexpected disconnect.
 4. **Human/device** (#40, #50): matched \`p21;low_latency=true/false\` vs \`p1041\` on same Athena under Windows and Android, 3 × 60 s, log all failed trials and Bluetooth/firmware versions.
 5. **Human/device** (#51): separately operate BlueMuse Windows LSL and/or OpenMuse raw acquisition; one BLE owner at a time; review MSIX certificate trust before BlueMuse install.
-6. **Autonomous + human** (#43, #54): keep host/LSL dejitter clocks separate from real physical EEG timing; no real EEG-BIDS promotion without independent timing evidence.
+6. **Software + device validation** (#43, #54): keep host/LSL dejitter clocks separate from real physical EEG timing; no real EEG-BIDS promotion without independent timing evidence.
 
 ## Sources
 
