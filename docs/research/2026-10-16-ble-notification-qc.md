@@ -1,6 +1,6 @@
 # Athena notification journal QC (offline, M03)
 
-Partial autonomous work on issues #48, #49 and #44. This tool **does not connect to BLE**; it inspects captures produced by a future explicitly authorized/raw-notification collector. A BrainFlow `.eegz` file or `.partial.jsonl` acquisition journal is **not** this format, because neither contains native BLE notification bytes.
+Preliminary software-only work on issues #48, #49 and #44. This tool **does not connect to BLE**; it inspects captures produced by a future explicitly authorized/raw-notification collector. A BrainFlow `.eegz` file or `.partial.jsonl` acquisition journal is **not** this format, because neither contains native BLE notification bytes.
 
 ## Strict input contract
 

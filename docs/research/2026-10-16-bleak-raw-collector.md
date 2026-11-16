@@ -1,6 +1,6 @@
 # M03: opt-in Muse S Athena raw BLE notification collector
 
-Implementation of the autonomous software portion of #48/#49/#44. **The physical headset has not been tested with this collector.** This module captures only application-visible BLE notifications; it cannot independently measure radio-layer packet losses or certify a hardware sample clock.
+Implementation of the software-only portion of #48/#49/#44. **The physical headset has not been tested with this collector.** This module captures only application-visible BLE notifications; it cannot independently measure radio-layer packet losses or certify a hardware sample clock.
 
 ## Setup and consent
 

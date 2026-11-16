@@ -34,16 +34,17 @@ NEW_POLICY_DOCS = {
     "docs/glossary.md",
 }
 NAV_REQUIRED = {
-    "docs/development/agent-workflow.md",
-    "docs/development/coding-standards.md",
-    "docs/development/testing.md",
-    "docs/development/writing-standards.md",
-    "docs/development/document-budgets.md",
-    "docs/issue-operating-procedure.md",
     "docs/research/reproducibility.md",
     "docs/teaching-standards.md",
     "docs/glossary.md",
 }
+# Files for maintainers are not part of the published MkDocs site.
+EXCLUDED_DOCS = (
+    "/development/",
+    "/issue-operating-procedure.md",
+    "/Complete-Implementation-Specification.md",
+)
+
 LINK_PATTERN = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
 NAV_PATTERN = re.compile(r"^\s*-\s+[^:\n]+:\s+([^\s#]+\.md)\s*$", re.MULTILINE)
 
@@ -88,6 +89,19 @@ def main() -> int:
     for nav_file in nav_files:
         if not (ROOT / "docs" / nav_file).is_file():
             errors.append(f"NAV_MISSING_FILE {nav_file}")
+    for excluded in EXCLUDED_DOCS:
+        if f"  {excluded}" not in nav:
+            errors.append(f"PUBLIC_EXCLUSION_MISSING {excluded}")
+    for public_doc in (ROOT / "docs").rglob("*.md"):
+        rel = public_doc.relative_to(ROOT).as_posix()
+        if rel.startswith("docs/development/") or rel in {
+            "docs/issue-operating-procedure.md",
+            "docs/Complete-Implementation-Specification.md",
+        }:
+            continue
+        content = public_doc.read_text(encoding="utf-8")
+        if re.search(r"agent|copilot|autonom", content, re.IGNORECASE):
+            errors.append(f"PUBLIC_AGENT_REFERENCE {rel}")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     if "(AGENTS.md)" not in readme or "(docs/index.md)" not in agent:
         errors.append("ENTRYPOINT_LINKS")

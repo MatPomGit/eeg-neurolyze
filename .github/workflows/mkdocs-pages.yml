@@ -47,6 +47,9 @@ jobs:
           test -s site/pl/real-eeg/index.html
           test -s site/en/real-eeg/index.html
           test -s site/pl/presentation/index.html
+          test ! -e site/development/agent-workflow/index.html
+          test ! -e site/issue-operating-procedure/index.html
+          test ! -e site/Complete-Implementation-Specification/index.html
           ! find site -type f \( -iname '*.edf' -o -iname '*.eegz' -o -iname '*.vhdr' -o -iname '*.vmrk' \) | grep -q .
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4

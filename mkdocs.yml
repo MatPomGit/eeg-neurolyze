@@ -8,6 +8,12 @@ docs_dir: docs
 site_dir: site
 use_directory_urls: true
 
+# These files are maintained in the repository, but must never enter GitHub Pages.
+exclude_docs: |
+  /development/
+  /issue-operating-procedure.md
+  /Complete-Implementation-Specification.md
+
 theme:
   name: material
   language: pl
@@ -81,13 +87,7 @@ nav:
       - Kamienie milowe: architecture/ROADMAP.md
       - Decyzje ADR: architecture/adr/README.md
       - Dziennik badań: research/index.md
-  - Praca nad projektem:
-      - Praca agentów: development/agent-workflow.md
-      - Procedura Issues: issue-operating-procedure.md
-      - Standardy kodu: development/coding-standards.md
-      - Testy i CI: development/testing.md
-      - Standardy języka: development/writing-standards.md
-      - Budżety dokumentów: development/document-budgets.md
+  - Materiały uzupełniające:
       - Reprodukowalność EEG: research/reproducibility.md
       - Słownik terminów: glossary.md
       - Dydaktyka: teaching-standards.md
