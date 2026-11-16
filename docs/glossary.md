@@ -1,6 +1,6 @@
 # Terminologia EEG Neurolyze
 
-[Indeks](index.md) | [Standard języka](development/writing-standards.md) | [Reprodukowalność](research/reproducibility.md)
+[Indeks](index.md) | [Reprodukowalność](research/reproducibility.md)
 
 | Termin | Angielski | Definicja i uwaga |
 |---|---|---|

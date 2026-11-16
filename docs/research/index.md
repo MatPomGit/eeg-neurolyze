@@ -16,4 +16,4 @@ Dokumentacja referencyjna oraz pliki naukowe są integralną częścią repozyto
 - [Protokół reprodukowalności, danych i poziomów dowodów](reproducibility.md).
 - [Terminy EEG, zegarów i walidacji](../glossary.md).
 
-- [Indeks poziomów dowodów i źródeł](https://github.com/MatPomGit/eeg-neurolyze/blob/main/PROJECT_STATE.yaml): historyczny obraz dowodów, nie kolejka agentów ani zatwierdzenie badań.
+- [Indeks poziomów dowodów i źródeł](https://github.com/MatPomGit/eeg-neurolyze/blob/main/PROJECT_STATE.yaml): historyczny wykaz dowodów, nie potwierdzenie walidacji badań.

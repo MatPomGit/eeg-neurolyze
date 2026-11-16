@@ -34,10 +34,6 @@ flowchart LR
 
 **Aktualizacja dokumentacji:** 2026-10-31. Materiały opisują możliwości oprogramowania i ograniczenia, nie oferują diagnozy medycznej.
 
-## Rozwój projektu i autonomiczni agenci
+## Materiały uzupełniające
 
-- [Cykl pracy agentów](development/agent-workflow.md), [obsługa Issues](issue-operating-procedure.md), [testy i CI](development/testing.md).
-- [Standardy kodu](development/coding-standards.md), [języka](development/writing-standards.md), [budżety dokumentacji](development/document-budgets.md).
 - [Reprodukowalność badań](research/reproducibility.md), [terminologia EEG](glossary.md), [dydaktyka](teaching-standards.md).
-
-Instrukcja główna dla agentów jest w [AGENTS.md na GitHub](https://github.com/MatPomGit/eeg-neurolyze/blob/main/AGENTS.md); wejście dla użytkownika w [README](https://github.com/MatPomGit/eeg-neurolyze/blob/main/README.md). Dokumenty szczegółowe mają odnośniki zwrotne do tego indeksu.
