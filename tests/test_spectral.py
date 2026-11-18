@@ -137,6 +137,45 @@ class SpectralAnalysisTests(unittest.TestCase):
         self.assertAlmostEqual(result.eyes_open_uv2["Cz"], 1.25, delta=0.04)
         self.assertAlmostEqual(result.eyes_closed_uv2["Cz"], 1.25, delta=0.04)
 
+    def test_simulated_events_use_sample_indices_not_source_offset(self):
+        rate = 64
+        times = tuple(100.0 + index / rate for index in range(256))
+        samples = tuple(
+            ((1.0 if index < 128 else 2.0)
+             * math.sin(2 * math.pi * 10 * index / rate),)
+            for index in range(256)
+        )
+        events = [
+            {"condition": "eyes_open", "onset_seconds": 0, "duration_seconds": 2},
+            {"condition": "eyes_closed", "onset_seconds": 2, "duration_seconds": 2},
+        ]
+        recording = Recording(
+            "synthetic-events", rate, ("Cz",), samples, times,
+            {"data_status": "simulated", "events": events},
+        )
+        comparison = compare_resting_alpha(recording)
+        self.assertAlmostEqual(comparison.eyes_open_uv2["Cz"], 0.5, delta=0.02)
+        self.assertAlmostEqual(comparison.eyes_closed_uv2["Cz"], 2.0, delta=0.02)
+
+    def test_invalid_event_timing_is_rejected(self):
+        rate = 64
+        samples = tuple((1.0,) for _ in range(256))
+        times = tuple(index / rate for index in range(256))
+        recording = Recording(
+            "events", rate, ("Cz",), samples, times,
+            {"data_status": "simulated", "events": [
+                {"condition": "eyes_open", "onset_seconds": 0, "duration_seconds": 2},
+                {"condition": "eyes_closed", "onset_seconds": 2, "duration_seconds": 2},
+            ]},
+        )
+        for invalid in (0, -1, float("nan"), "2"):
+            with self.subTest(invalid=invalid):
+                events = [dict(item) for item in recording.metadata["events"]]
+                events[0]["duration_seconds"] = invalid
+                changed = replace(recording, metadata={**recording.metadata, "events": events})
+                with self.assertRaisesRegex(ValueError, "invalid eyes_open event timing"):
+                    compare_resting_alpha(changed)
+
     def test_rejects_invalid_sampling_rate(self):
         with self.assertRaises(ValueError):
             welch_psd([0.0] * 16, 0)
