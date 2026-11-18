@@ -38,3 +38,10 @@ Dla każdej kontroli zapisz polecenie, OS, interpreter, wersje, finalny SHA, dat
 ## Dokumenty i bezpieczeństwo
 
 `tools/check_agent_docs.py` sprawdza wybrane dokumenty normatywne, ich limity, miejscowe linki i obecność w nawigacji. MkDocs sprawdza rendering strony. Te kontrole nie zastępują ręcznego przeglądu odnośników zewnętrznych, poufności, jakości języka i poprawności naukowej. Wyniki z symulatora nie mogą być przedstawiane jako dane fizjologiczne.
+
+## Utrzymanie interfejsu CLI
+
+Moduł `eeg_athenalyze.cli` zachowuje publiczny punkt wejścia `main`.
+`cli_parser.py` definiuje składnię i wartości domyślne argumentów, natomiast
+`cli_commands.py` wykonuje polecenia. Zmiany kontraktu CLI należy weryfikować
+pełnym zestawem `python -m unittest discover -s tests -v`.
