@@ -30,11 +30,23 @@ class Recording:
             raise ValueError("channel_names must be non-empty and unique")
         if len(self.samples_uv) != len(self.timestamps_seconds):
             raise ValueError("sample and timestamp counts must match")
+        self._validate_samples()
+
+    def _validate_samples(self) -> None:
+        """Validate rows and timestamp order without modifying source data.
+
+        Measured timestamps may repeat but may not decrease. Other streams,
+        including synthetic EEG, require strictly increasing timestamps.
+        """
+        allow_equal_timestamps = self.metadata.get("data_status") == "measured"
+        channel_count = len(self.channel_names)
         previous_timestamp = -math.inf
         for timestamp, row in zip(self.timestamps_seconds, self.samples_uv):
-            if not math.isfinite(timestamp) or (timestamp < previous_timestamp if self.metadata.get('data_status') == 'measured' else timestamp <= previous_timestamp):
+            if not math.isfinite(timestamp) or timestamp < previous_timestamp:
                 raise ValueError("timestamps must be finite and strictly increasing")
-            if len(row) != len(self.channel_names):
+            if timestamp == previous_timestamp and not allow_equal_timestamps:
+                raise ValueError("timestamps must be finite and strictly increasing")
+            if len(row) != channel_count:
                 raise ValueError("each sample must have one value per channel")
             if any(not math.isfinite(value) for value in row):
                 raise ValueError("sample values must be finite")
