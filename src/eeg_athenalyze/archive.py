@@ -16,6 +16,30 @@ _RECORDING_MEMBER = "recording.json"
 _MANIFEST_MEMBER = "manifest.json"
 
 
+_MAX_MANIFEST_BYTES = 64 * 1024
+
+
+def _read_archive_members(
+    archive: zipfile.ZipFile,
+) -> tuple[dict[str, object], bytes]:
+    """Reject ambiguous ZIP layouts before reading untrusted EEG payloads."""
+    members = archive.infolist()
+    expected = {_MANIFEST_MEMBER, _RECORDING_MEMBER}
+    if len(members) != len(expected) or {
+        member.filename for member in members
+    } != expected:
+        raise ValueError("invalid EEG recording archive members")
+
+    manifest_member = archive.getinfo(_MANIFEST_MEMBER)
+    if manifest_member.file_size > _MAX_MANIFEST_BYTES:
+        raise ValueError("EEG recording archive manifest is too large")
+
+    manifest = json.loads(archive.read(manifest_member))
+    if not isinstance(manifest, dict):
+        raise ValueError("invalid EEG recording archive manifest")
+    return manifest, archive.read(_RECORDING_MEMBER)
+
+
 def _recording_bytes(recording: Recording) -> bytes:
     payload = {
         "recording_id": recording.recording_id,
@@ -74,8 +98,7 @@ def load_recording(source: str | Path) -> Recording:
     path = Path(source)
     try:
         with zipfile.ZipFile(path, mode="r") as archive:
-            manifest = json.loads(archive.read(_MANIFEST_MEMBER))
-            recording_data = archive.read(_RECORDING_MEMBER)
+            manifest, recording_data = _read_archive_members(archive)
     except (OSError, zipfile.BadZipFile, KeyError, json.JSONDecodeError) as error:
         raise ValueError(f"invalid EEG recording archive: {path}") from error
 
@@ -89,6 +112,10 @@ def load_recording(source: str | Path) -> Recording:
 
     try:
         payload = json.loads(recording_data)
+        if not isinstance(payload, dict) or not isinstance(
+            payload.get("metadata"), dict
+        ):
+            raise ValueError("invalid EEG recording archive content")
         return Recording(
             recording_id=payload["recording_id"],
             sample_rate_hz=payload["sample_rate_hz"],

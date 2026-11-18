@@ -22,6 +22,13 @@ Przy rejestracji notuj urządzenie, firmware, wersję BrainFlow, system i sterow
 
 Przy analizie zapisz skrypt, SHA, zależności, konfigurację, ziarno losowe, pipeline MNE/PSD, filtrację, epokowanie, liczbę odrzuconych okien, miary niepewności i ograniczenia. Odróżnij planowane, nieudane i wykonane próby; nie zastępuj braku danych imputacją bez protokołu. Jeśli używasz uczenia maszynowego, podział uczestnikowy/sesyjny przed strojeniem i brak przecieku train/test są obowiązkowe.
 
+Archiwum źródłowe `.eegz` w wersji 1 zawiera dokładnie dwa pliki:
+`manifest.json` oraz `recording.json`. Czytnik odrzuca zduplikowane lub
+nieoczekiwane wpisy ZIP, manifesty inne niż obiekt JSON i manifesty większe
+niż 64 KiB. Weryfikacja SHA-256 dotyczy surowej zawartości `recording.json`,
+a nie całego kontenera ZIP. Sprawdzenie sumy kontrolnej nie zastępuje oceny
+jakości sygnału, autentyczności pochodzenia ani legalności przetwarzania.
+
 ## BIDS i raporty
 
 Syntetyczny eksport BrainVision musi mieć rzeczywiste metadane i zdarzenia, oficjalny BIDS Validator bez blokujących błędów oraz odczyt MNE dla wskazanego datasetu. Raportuj nazwę, wersję i wynik walidatora oraz równoważność kanałów, próbek, jednostek i zdarzeń. Nie nazywaj własnego archiwum `.eegz` formatem BIDS. Raw BIDS i pochodne trzymaj oddzielnie, w pochodnych zapisuj `GeneratedBy` i parametry.
