@@ -228,7 +228,10 @@ def _continuous_runs(
         run_start = start
         maximum_gap = max_gap_factor / recording.sample_rate_hz
         for index in range(start + 1, stop):
-            gap = recording.timestamps_seconds[index] - recording.timestamps_seconds[index - 1]
+            gap = (
+                recording.timestamps_seconds[index]
+                - recording.timestamps_seconds[index - 1]
+            )
             if gap <= 0 or gap > maximum_gap:
                 if index - run_start >= minimum_run_samples:
                     runs.append((run_start, index))
@@ -259,7 +262,10 @@ def _condition_band_powers(
         estimates = []
         for run_start, run_stop in runs:
             spectrum = welch_psd(
-                [row[channel_index] for row in recording.samples_uv[run_start:run_stop]],
+                [
+                    row[channel_index]
+                    for row in recording.samples_uv[run_start:run_stop]
+                ],
                 recording.sample_rate_hz,
                 segment_seconds=segment_seconds,
             )
@@ -275,8 +281,13 @@ def _condition_band_powers(
                 (band_power(spectrum, low_hz, high_hz), segment_count)
             )
         if not estimates:
-            raise ValueError(f"recording has insufficient contiguous samples for {condition}")
-        powers[channel_name] = sum(value * count for value, count in estimates) / sum(count for _, count in estimates)
+            raise ValueError(
+                f"recording has insufficient contiguous samples for {condition}"
+            )
+        powers[channel_name] = (
+            sum(value * count for value, count in estimates)
+            / sum(count for _, count in estimates)
+        )
     return powers
 
 

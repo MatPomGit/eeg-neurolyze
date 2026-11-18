@@ -172,8 +172,13 @@ class SpectralAnalysisTests(unittest.TestCase):
             with self.subTest(invalid=invalid):
                 events = [dict(item) for item in recording.metadata["events"]]
                 events[0]["duration_seconds"] = invalid
-                changed = replace(recording, metadata={**recording.metadata, "events": events})
-                with self.assertRaisesRegex(ValueError, "invalid eyes_open event timing"):
+                changed = replace(
+                    recording,
+                    metadata={**recording.metadata, "events": events},
+                )
+                with self.assertRaisesRegex(
+                    ValueError, "invalid eyes_open event timing"
+                ):
                     compare_resting_alpha(changed)
 
     def test_rejects_invalid_sampling_rate(self):
