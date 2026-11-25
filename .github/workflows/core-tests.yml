@@ -20,6 +20,7 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
+          cache-dependency-path: pyproject.toml
       - name: Check agent documentation and links
         run: python tools/check_agent_docs.py
       - name: Check research evidence index
